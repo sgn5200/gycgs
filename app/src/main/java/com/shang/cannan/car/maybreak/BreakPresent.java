@@ -153,7 +153,7 @@ public class BreakPresent {
 	 * @param carNo        业务类型
 	 * @param numType    车辆类型
 	 */
-	public void subUser(String sitNo,String date,String timePart,String carNo,String numType){
+	public void subUser(String sitNo, String date, final String timePart, String carNo, String numType){
 		URLParam param = new URLParam("/CarAPP/CarRecord/Bespeak");
 		param.setMethod(Method.POST);
 		param.addParam("BespeakSiteNo",sitNo);
@@ -167,7 +167,13 @@ public class BreakPresent {
 					public void accept(ResponseBody responseBody) throws Exception {
 						breakView.showDialog(false);
 						String rs = responseBody.string();
-						breakView.submitUser(true,rs);
+						String title = Jsoup.parse(rs).title();
+						Log.i(TAG,title);
+						if("预约成功".equals(title)){
+							breakView.submitUser(true,rs);
+						}else{
+							breakView.submitUser(false,rs);
+						}
 					}
 				}, new Consumer<Throwable>() {
 					@Override
@@ -223,143 +229,4 @@ public class BreakPresent {
 		  public void login(boolean success,String msg);
 		  public void initUser(boolean success,String msg);
 	}
-
-
-
-
-
-
-
-	String htmlFinish ="\n" +
-			"\n" +
-			"<!DOCTYPE html>\n" +
-			"\n" +
-			"<html>\n" +
-			"<head>   \n" +
-			"    <meta charset=\"utf-8\">\n" +
-			"\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
-			"    <title>预约成功</title>   \n" +
-			"    <link href=\"/CarAPP/Content/mobileCss?v=IhD5fzGF6xKwwBCnFkGJGJHTq3_G7MAxafykXcBpjWY1\" rel=\"stylesheet\"/>\n" +
-			"<link href=\"/CarAPP/Content/css?v=fflyC6wbnEnxqDrJc7BMeUfMF2IDDeoPiz2blYNgGNI1\" rel=\"stylesheet\"/>\n" +
-			"\n" +
-			"    <script src=\"/CarAPP/bundles/modernizr?v=rGcoDow97GYrNMSwHq7xCCjlcB3UIY4_OhPRc6BBSQA1\"></script>\n" +
-			" \n" +
-			"    <script src=\"/CarAPP/bundles/jquery?v=1A_Qqa6eu1hIFc9O--lfxRqvbqGj9Zd6uAr93zLdrWM1\"></script>\n" +
-			"<script src=\"/CarAPP/bundles/jquerymobile?v=j8uudNNdLQQsh05CG2aZ3TvZB0NSp3FgGS7SaC_6YZQ1\"></script>\n" +
-			"  \n" +
-			"    <script src=\"/CarAPP/bundles/jqueryval?v=-tc2QZUKsI5XsBJSyox6jU38dSPE468EEX0oQlQTeSE1\"></script>\n" +
-			"\n" +
-			"</head>\n" +
-			"<body>\n" +
-			"   <!-- Home -->\n" +
-			"<div data-role=\"page\" id=\"page1\">\n" +
-			"    <div data-theme=\"c\" data-role=\"header\">\n" +
-			"        <a data-role=\"button\" href=\"/CarAPP/CarRecord/Record\" data-icon=\"back\" data-iconpos=\"left\"\n" +
-			"        class=\"ui-btn-left\" data-ajax=\"false\">\n" +
-			"            返回\n" +
-			"        </a>\n" +
-			"        <h3>\n" +
-			"             第5步：预约成功\n" +
-			"        </h3>\n" +
-			"        <a data-role=\"button\" href=\"/CarAPP/\" data-icon=\"home\" data-iconpos=\"right\"\n" +
-			"        class=\"ui-btn-right\" data-ajax=\"false\" >\n" +
-			"            首页\n" +
-			"        </a>\n" +
-			"           </div>\n" +
-			"      <div data-role=\"content\">  \n" +
-			"           <form action=\"Finish\" data-ajax=\"false\" method=\"post\"> \n" +
-			"    <div class=\"validation-summary-valid\" data-valmsg-summary=\"true\"><ul><li style=\"display:none\"></li>\n" +
-			"</ul></div>   \n" +
-			"         <div data-role=\"fieldcontain\">\n" +
-			"            <label for=\"labelCarServiceName\">\n" +
-			"                业务类型:\n" +
-			"            </label>\n" +
-			"            <label id=\"labelCarServiceName\">\n" +
-			"                注册登记（非专段号牌、新能源）\n" +
-			"            </label>\n" +
-			"        </div>\n" +
-			"        <div data-role=\"fieldcontain\">\n" +
-			"            <label for=\"NumberTypeName\">\n" +
-			"                车辆类型:\n" +
-			"            </label>\n" +
-			"             <label id=\"NumberTypeName\">\n" +
-			"               国产小型客车\n" +
-			"            </label></div>\n" +
-			"         <div data-role=\"fieldcontain\">\n" +
-			"            <label for=\"BespeakServiceRemark\">\n" +
-			"                办理所需资料清单:\n" +
-			"            </label>\n" +
-			"             <label id=\"BespeakServiceRemark\">\n" +
-			"               1、机动车所有人身份证明【个人：身份证原件及复印件，单位：组织机构代码证原件及复印件（复印件盖公章）】；\n" +
-			"2、车辆合格证；\n" +
-			"3、车辆购车发票（第四联）；\n" +
-			"4、交强险副本；\n" +
-			"5、车辆购置税；\n" +
-			"6、车辆照片2张/车；\n" +
-			"7、车架号拓印膜\n" +
-			"若委托他人办理还需提供：\n" +
-			"1、委托书；\n" +
-			"2、经办人身份证原件及复印件；\n" +
-			"将以上资料准备齐后交验机动车！\n" +
-			"            </label></div>\n" +
-			"        <div data-role=\"fieldcontain\">            \n" +
-			"             <label>车辆识别代号:</label>LBVKY1109JSR43111\n" +
-			"                    \n" +
-			"        </div>  \n" +
-			"               \n" +
-			"                \n" +
-			"\n" +
-			"               \n" +
-			"                  \n" +
-			"        <div data-role=\"fieldcontain\">\n" +
-			"             车主类型:个人\n" +
-			"            \n" +
-			"        </div>\n" +
-			"        <div data-role=\"fieldcontain\">\n" +
-			"            <label>\n" +
-			"               车主名称:李莹云\n" +
-			"            </label>\n" +
-			"          </div>         \n" +
-			"        <div data-role=\"fieldcontain\">\n" +
-			"              证件类型:居民身份证号码      \n" +
-			"        </div>\n" +
-			"        <div data-role=\"fieldcontain\">\n" +
-			"                 <label>证件号码:</label>52212419930517082X            \n" +
-			"            </div>\n" +
-			"        <div data-role=\"fieldcontain\">          \n" +
-			"             <label>\n" +
-			"               预约次数: 1<label>次</label>\n" +
-			"            </label>           \n" +
-			"        </div>\n" +
-			"          <div data-role=\"fieldcontain\">\n" +
-			"                 <label>预约日期:</label>2018-05-28 下午            \n" +
-			"            </div>\n" +
-			"         <div data-role=\"fieldcontain\">          \n" +
-			"             <label>\n" +
-			"               预约地点: 花溪办证大厅（孟关汽贸城内）\n" +
-			"            </label>           \n" +
-			"        </div>\n" +
-			"         <div data-role=\"fieldcontain\">          \n" +
-			"             <label>\n" +
-			"               预约地点地址: 贵阳市花溪区孟关乡汽车城内（请注意“孟关机动车登记服务站”和“花溪办证大厅”的区别，都在孟关汽贸城内，其各自分开在孟关汽贸城内不同的位置！）\n" +
-			"            </label>           \n" +
-			"        </div>        \n" +
-			"       \n" +
-			"        <div data-role=\"fieldcontain\">\n" +
-			"            <label>\n" +
-			"                是否代办: 否   \n" +
-			"            </label>           \n" +
-			"        </div>               \n" +
-			"          <div style=\"text-align:center\">\n" +
-			"           <div data-role=\"controlgroup\" data-type=\"horizontal\">\n" +
-			"               <a data-role=\"button\" href=\"/CarAPP/CarRecord/RecordView\" data-icon=\"arrow-l\" data-iconpos=\"left\" data-ajax=\"false\">返回</a>\n" +
-			"               <a data-role=\"button\"  href=\"/CarAPP/CarRecord/Logout\" data-theme=\"a\" data-ajax=\"false\">退出系统</a> \n" +
-			"              </div> \n" +
-			"            </div>  \n" +
-			"     </form>\n" +
-			"    </div>\n" +
-			"  \n" +
-			"</div>\n" +
-			"</body>\n" +
-			"</html>\n";
 }

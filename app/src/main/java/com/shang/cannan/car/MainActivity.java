@@ -123,7 +123,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 		mayAdapter.setMayClickListener(new MayAdapter.MayBreakListener() {
 			@Override
 			public void mayBreak(MayInfoVo vo, boolean am) {
-				showToast("可以预约"+vo.getBespeakDate());
+				showToast("可以预约"+(am?vo.getAmMayBespeakNumber():vo.getPmMayBespeakNumber()));
 				Bundle bundle = new Bundle();
 				bundle.putBoolean("isAm",am);        //  tvSiteName, tvTimepart, tvDate
 				bundle.putString("siteName",vo.getBespeakSiteName());

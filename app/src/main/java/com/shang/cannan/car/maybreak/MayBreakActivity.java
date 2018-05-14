@@ -170,14 +170,16 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 			bundle.putString("urlHtml",msg);
 			lunchActivityForResult(BreakQueryActivity.class,88,bundle);
 		}else{
-			submit();
-			if ("预约成功".equals(msg)) {
+			if (success) {
+				submit();
 				showToast("预约成功:"+curItem.getOwnerName());
 				curItem.setOkStatus(1);
 				adapter.updateData(curItem);
 				OwnerDao.getInstance(MyApp.helper).update(curItem);
 			} else {
-				showToast(msg);
+				Bundle bundle = new Bundle();
+				bundle.putString("urlHtml",msg);
+				lunchActivityForResult(BreakQueryActivity.class,88,bundle);
 			}
 		}
 	}
