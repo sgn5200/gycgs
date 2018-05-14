@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="card">
+        <item>居民身份证</item>
+        <item>信用代码或机构代码</item>
+        <item>其他证件号</item>
+    </string-array >
+
+    <!--业务类型-->
+    <string-array name="CarServiceNo">
+        <item>请选择</item>
+        <item>(1)注册登记（非专段号牌）</item>
+        <item>(2)转入（非专段号牌）</item>
+        <item>(3)转移登记（转出）</item>
+        <item>(4)转移登记（过户到非专段号牌）</item>
+        <item>(5)变更迁出</item>
+        <item>(6)变更车身颜色</item>
+        <item>(7)更换车身或者车架</item>
+        <item>(8)更换发动机</item>
+        <item>(9)变更使用性质</item>
+        <item>(10)重新打刻VIN</item>
+        <item>(11)重新打刻发动机号</item>
+        <item>(12)加装/拆除操纵辅助装置</item>
+        <item>(13)补领登记证书</item>
+        <item>(14)更换整车</item>
+    </string-array>
+     <!--车辆类型-->
+    <string-array name="NumberType">
+        <item>请选择</item>
+        <item>(1)国产小型客车</item>
+        <item>(2)进口小型客车</item>
+        <item>(3)国产小型货车</item>
+        <item>(4)进口小型货车</item>
+        <item>(5)国产中大型客车</item>
+        <item>(6)国产中大型货车</item>
+    </string-array>
+
+
+    <string-array name="timePart">
+        <item>请选择</item>
+        <item>早上</item>
+        <item>下午</item>
+    </string-array>
+</resources>

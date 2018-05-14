@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/pagePadding"
+    android:orientation="vertical"
+    android:background="@mipmap/bg"
+    tools:context="com.shang.cannan.car.login.LoginActivity">
+
+    <ProgressBar
+        android:layout_centerHorizontal="true"
+        android:id="@+id/login_progress"
+        android:layout_marginTop="80dp"
+        android:layout_gravity="center_horizontal"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <LinearLayout
+        android:layout_marginTop="30dp"
+       android:layout_centerInParent="true"
+        android:id="@+id/email_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/phone"
+                android:textSize="@dimen/tv_h2"
+                android:textColor="@android:color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/phone_number"
+                android:inputType="phone"
+                android:textColorHint="@color/textColor"
+                android:maxLines="1"
+                android:singleLine="true"/>
+
+            <Button
+                android:id="@+id/btPhone"
+                android:text="获取验证码"
+                android:textSize="@dimen/tv_h2"
+                android:alpha="0.6"
+                android:textColor="@android:color/white"
+                android:background="@drawable/bt_style"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/sms_code"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/tv_h2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sms_code"
+                android:imeActionId="6"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified"
+                android:inputType="number"
+                android:textColorHint="@color/textColor"
+                android:maxLines="1"
+                android:singleLine="true"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:background="@drawable/bt_style"
+            android:textSize="@dimen/tv_h2"
+            android:textColor="@android:color/white"
+            android:id="@+id/btLogin"
+            android:alpha="0.6"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_sign_in"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tv"
+        android:textSize="@dimen/tv_h1"
+        android:textColor="@color/textColor"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_centerHorizontal="true"
+        android:text="尽送给老婆大人的神器"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

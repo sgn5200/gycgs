@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pageBgColor"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.shang.cannan.car.input.InputActivity">
+
+    <include layout="@layout/layout_top_bar"/>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        style="@style/input_item">
+        <TextView
+            android:id="@+id/tvservice"
+            style="@style/input_lab"
+            android:text="业务类型："/>
+
+        <Spinner
+            android:id="@+id/spOp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/tvservice"
+            android:background="@drawable/box_style"
+            android:dropDownVerticalOffset="30dp"
+            android:dropDownWidth="150dp"
+            android:gravity="center"
+            android:entries="@array/CarServiceNo"
+            android:popupBackground="@color/pageBgColor"
+            android:spinnerMode="dropdown"
+            />
+    </RelativeLayout>
+
+    <include layout="@layout/line_horizon"/>
+
+    <RelativeLayout
+        style="@style/input_item">
+
+        <TextView
+
+            android:id="@+id/tvcar"
+            style="@style/input_lab"
+            android:text="车辆类型："/>
+
+        <Spinner
+            android:id="@+id/spCar"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/tvcar"
+            android:background="@drawable/box_style"
+            android:dropDownVerticalOffset="30dp"
+            android:dropDownWidth="150dp"
+            android:gravity="center"
+            android:entries="@array/NumberType"
+            android:popupBackground="@color/pageBgColor"
+            android:spinnerMode="dropdown"
+            />
+    </RelativeLayout>
+
+    <include layout="@layout/line_horizon"/>
+
+    <RelativeLayout
+        style="@style/input_item">
+
+        <TextView
+            android:id="@+id/tvcarcode"
+            style="@style/input_lab"
+            android:text="识别代号："/>
+
+        <EditText
+            android:id="@+id/etCode"
+            style="@style/input_et"
+            android:layout_toRightOf="@+id/tvcarcode"/>
+    </RelativeLayout>
+
+    <include layout="@layout/line_horizon"/>
+
+    <RelativeLayout
+        style="@style/input_item">
+
+        <TextView
+            android:id="@+id/tvusertype"
+            style="@style/input_lab"
+            android:text="车主类型："/>
+
+
+        <RadioGroup
+            android:id="@+id/rg"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/tvusertype"
+            android:background="@drawable/box_style">
+
+            <RadioButton
+                android:layout_marginLeft="20dp"
+                android:id="@+id/rbUserSign"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="个人"/>
+
+            <RadioButton
+                android:id="@+id/rbUserAll"
+                android:layout_marginLeft="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="单位"/>
+        </RadioGroup>
+
+    </RelativeLayout>
+
+    <include layout="@layout/line_horizon"/>
+
+    <RelativeLayout
+        style="@style/input_item">
+
+        <TextView
+            android:id="@+id/tvUsername"
+            style="@style/input_lab"
+            android:text="车主名称："/>
+
+        <EditText
+            android:id="@+id/etUsername"
+            style="@style/input_et"
+            android:layout_toRightOf="@+id/tvUsername"
+            android:hint="(姓名/单位名称)"/>
+    </RelativeLayout>
+
+    <include layout="@layout/line_horizon"/>
+
+
+    <RelativeLayout
+        style="@style/input_item">
+
+        <TextView
+
+            android:id="@+id/tvoption"
+            style="@style/input_lab"
+            android:text="证件类型："/>
+
+        <Spinner
+            android:id="@+id/spCard"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/tvoption"
+            android:background="@drawable/box_style"
+            android:dropDownVerticalOffset="30dp"
+            android:dropDownWidth="150dp"
+            android:entries="@array/card"
+            android:gravity="center"
+            android:popupBackground="@color/pageBgColor"
+            android:prompt="@string/app_name"
+            android:spinnerMode="dropdown"/>
+    </RelativeLayout>
+
+    <include layout="@layout/line_horizon"/>
+
+    <RelativeLayout
+        style="@style/input_item">
+
+        <TextView
+            android:id="@+id/tvcard"
+            style="@style/input_lab"
+            android:text="证件号码："/>
+
+        <EditText
+            android:id="@+id/etCard"
+            style="@style/input_et"
+            android:layout_toRightOf="@+id/tvcard"/>
+    </RelativeLayout>
+
+    <include layout="@layout/line_horizon"/>
+
+    <RelativeLayout
+        style="@style/input_item">
+
+        <TextView
+            android:id="@+id/tvcard22"
+            style="@style/input_lab"
+            android:text="是否代办："/>
+
+        <TextView
+            style="@style/input_et"
+            android:layout_toRightOf="@+id/tvcard22"
+            android:gravity="center"
+            android:text="否"/>
+    </RelativeLayout>
+
+    <include layout="@layout/line_horizon"/>
+
+    <Button
+        android:id="@+id/btSave"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bt_style"
+        android:gravity="center"
+        android:text="保存本地"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/tv_h2"/>
+</LinearLayout>

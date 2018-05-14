@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/pageBgColor"
+    tools:context="com.shang.cannan.car.maybreak.MayBreakActivity">
+
+
+    <include layout="@layout/layout_top_bar"/>
+
+    <RelativeLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvSiteName"
+            android:textSize="@dimen/tv_h2"
+            tools:text="孟关机动车登记服务站"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+      <TextView
+          android:id="@+id/tvDate"
+          android:layout_below="@+id/tvSiteName"
+          tools:text="2018-12-08"
+          android:textSize="@dimen/tv_h3"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/tvTimePart"
+            android:layout_below="@+id/tvSiteName"
+            android:layout_toRightOf="@+id/tvDate"
+            android:layout_marginLeft="20dp"
+            tools:text="上午"
+            android:textSize="@dimen/tv_h3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_marginTop="10dp"
+            android:text="预约显示"
+            android:layout_below="@+id/tvTimePart"
+            android:background="@color/textBg"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"/>
+
+
+        <CheckBox
+            android:id="@+id/checkboxAll"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/checkbox"
+            android:text="全选"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/tvTimePart"
+            android:background="@color/textBg"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"/>
+
+        <Button
+            android:id="@+id/btBreak"
+            android:text="立即预约"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/tv_h2"
+            android:background="@drawable/bt_style"
+            android:layout_alignParentRight="true"
+            android:layout_width="100dp"
+            android:layout_height="40dp"/>
+
+    </RelativeLayout>
+
+    <View
+        android:background="@color/lineColor"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <TextView
+        android:text="选择客户:"
+        android:background="@color/textBg"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:textSize="@dimen/tv_h2"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"/>
+    <View
+        android:background="@color/lineColor"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <ListView
+        android:id="@+id/lvPerson"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

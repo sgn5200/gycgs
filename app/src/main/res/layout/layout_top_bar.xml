@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/topBar"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/pagePadding"
+                android:paddingRight="@dimen/pagePadding"
+                android:background="@color/colorPrimaryDark"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/topLeftIv"
+        android:src="@mipmap/back"
+        android:padding="10dp"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+   <TextView
+       android:id="@+id/topTitleTv"
+       tools:text = "标题党"
+       android:layout_centerInParent="true"
+       android:textSize="@dimen/tv_h1"
+       android:textColor="@android:color/white"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/topRightIv"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/open"
+        android:layout_centerVertical="true"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+</RelativeLayout>

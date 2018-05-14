@@ -1,0 +1,27 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.shang.cannan.car"
+        minSdkVersion 16
+        targetSdkVersion 26
+        versionCode 4
+        versionName "创世纪 v1.3"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
+    implementation 'com.android.support:design:26.0.0-beta1'
+    compile project(':myrx')
+    compile 'org.jsoup:jsoup:1.11.3'
+    implementation files('libs/glide-3.7.0.jar')
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#28561a</color>
+    <color name="colorPrimaryDark">#20a71a</color>
+    <color name="colorAccent">#2e9741</color>
+    <color name="hintColor">#cacaca</color>
+    <color name="lineColor">#fb4d4d4d</color>
+    <color name="textColor">#d0f2ef</color>
+    <color name="pageBgColor">#c9f1de</color>
+    <color name="btnBgOn">#5cb940</color>
+    <color name="btnBgOff">#a5a5a7</color>
+    <color name="textLabCol">#5e5e5e</color>
+    <color name="textBg">#94bfbbbb</color>
+    <color name="textBlackCol">#000</color>
+    <color name="click_off">#d0d0d0</color>
+    <color name="click_on">#06960b</color>
+</resources>

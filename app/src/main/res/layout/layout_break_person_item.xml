@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@android:color/white"
+              android:orientation="vertical"
+              android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvPlat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#353e3b"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="云888888"/>
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/tvPlat"
+            android:paddingBottom="1dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="1dp"
+            android:text="进入"
+            android:textSize="10sp"/>
+
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="26dp"
+            android:layout_height="26dp"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:textColor="#353e3b"
+            android:textSize="14sp"
+            tools:text="测试入口大门东门"/>
+
+        <TextView
+            android:id="@+id/tvCode"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/tvCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:textColor="#353e3b"
+            android:textSize="14sp"
+            tools:text="测试入口大门东门"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/hintColor"
+            android:textSize="14sp"
+            tools:text="2018年5月4日"/>
+        <TextView
+            android:id="@+id/tvCardType"
+            android:layout_toRightOf="@+id/tvTime"
+            android:layout_marginLeft="30dp"
+            tools:text="aaa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+</LinearLayout>

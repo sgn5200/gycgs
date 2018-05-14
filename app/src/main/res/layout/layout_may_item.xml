@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:orientation="horizontal"
+
+                android:gravity="center"
+                android:background="#d0d0d0"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+    <TextView
+        android:text="aaaa"
+        android:paddingLeft="10dp"
+        android:id="@+id/tvTab1"
+        android:textSize="@dimen/tv_h3"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:gravity="center_vertical"
+        android:layout_height="40dp"/>
+
+    <View
+        android:background="@color/lineColor"
+        android:layout_width="1px"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:text="aaaa"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textStyle="bold"
+        android:textSize="@dimen/tv_h3"
+        android:id="@+id/tvTab2"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:background="@color/click_off"
+        android:layout_height="match_parent"/>
+    <View
+        android:background="@color/lineColor"
+        android:layout_width="1px"
+        android:layout_height="match_parent" />
+    <TextView
+        android:text="aaaa"
+        android:singleLine="true"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/tv_h3"
+         android:id="@+id/tvTab3"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

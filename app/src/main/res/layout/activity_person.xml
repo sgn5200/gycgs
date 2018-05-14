@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/pageBgColor"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context="com.shang.cannan.car.person.PersonActivity">
+
+
+    <RelativeLayout
+                    android:id="@+id/topBar"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/pagePadding"
+                    android:paddingRight="@dimen/pagePadding"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/topLeftIv"
+            android:src="@mipmap/back"
+            android:padding="10dp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/topTitleTv"
+            tools:text = "标题党"
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/tv_h1"
+            android:textColor="@android:color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <CheckBox
+            android:text="预约"
+            android:id="@+id/topRightIv"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/open"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"/>
+
+    </RelativeLayout>
+
+
+    <ListView
+        android:id="@+id/lvPerson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

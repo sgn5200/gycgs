@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tv_h1">24sp</dimen>
+    <dimen name="tv_h2">18sp</dimen>
+    <dimen name="tv_h3">16sp</dimen>
+    <dimen name="pagePadding">20dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+</resources>
