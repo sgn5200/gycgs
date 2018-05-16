@@ -44,9 +44,7 @@ public class SmsContent extends ContentObserver {
 			return;
 		}
 
-		Log.i("SMSTest", "cursor.isBeforeFirst(): " + cursor.isBeforeFirst() + " cursor.getCount(): " + cursor.getCount());
 		if (cursor != null && cursor.getCount() > 0) {
-
 			cursor.moveToFirst();
 			int smsbodyColumn = cursor.getColumnIndex("body");
 			String smsBody = cursor.getString(smsbodyColumn);
@@ -58,12 +56,11 @@ public class SmsContent extends ContentObserver {
 
 
 	private String getDynamicPassword(String str) {
-		Pattern continuousNumberPattern = Pattern.compile("[0-9\\.]+");
+		Pattern continuousNumberPattern = Pattern.compile("[0-9]+");
 		Matcher m = continuousNumberPattern.matcher(str);
 		String dynamicPassword = "";
 		while(m.find()){
 			if(m.group().length() == 6) {
-				System.out.print(m.group());
 				dynamicPassword = m.group();
 			}
 		}

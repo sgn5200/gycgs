@@ -59,8 +59,10 @@ public class LoginActivity extends AbsBaseActivity implements View.OnClickListen
 		RxEvent.getInstance().register(String.class, new Consumer<String>() {
 			@Override
 			public void accept(String s) throws Exception {
-				 etSms.setText(s);
-				login();
+				if(RegexUtils.isCode(s)){
+					etSms.setText(s);
+					login();
+				}
 			}
 		}, new Consumer<Throwable>() {
 			@Override
@@ -214,6 +216,7 @@ public class LoginActivity extends AbsBaseActivity implements View.OnClickListen
 				break;
 		}
 	}
+
 
 	private void login() {
 		phone = etPhone.getText().toString();

@@ -21,12 +21,10 @@
             tools:text="云888888"/>
 
         <TextView
-            android:id="@+id/tvStatus"
+            android:id="@+id/tvStatus2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@id/tvPlat"
+            android:layout_centerInParent="true"
             android:paddingBottom="1dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
@@ -34,6 +32,19 @@
             android:text="进入"
             android:textSize="10sp"/>
 
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="18dp"
+            android:layout_toRightOf="@id/tvStatus2"
+            android:paddingBottom="1dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="1dp"
+            android:text="进入"
+            android:textSize="10sp"/>
 
         <CheckBox
             android:id="@+id/checkbox"

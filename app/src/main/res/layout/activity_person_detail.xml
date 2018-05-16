@@ -105,9 +105,25 @@
         <TextView
             android:text="填报状态:\t"
             style="@style/input_lab"/>
-        <TextView
-            android:id="@+id/tvUpdateStatus"
-            style="@style/input_lab"/>
+
+
+        <RadioGroup
+            android:id="@+id/rgSub"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <RadioButton
+                android:id="@+id/rbSubOff"
+                android:text="未填报"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <RadioButton
+                android:id="@+id/rbSubOn"
+                android:text="已填报"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </RadioGroup>
+
     </LinearLayout>
     <LinearLayout
         android:paddingLeft="20dp"
@@ -118,9 +134,25 @@
         <TextView
             android:text="预约状态:\t"
             style="@style/input_lab"/>
-        <TextView
-            android:id="@+id/tvOkStatus"
-            style="@style/input_lab"/>
+
+        <RadioGroup
+            android:id="@+id/rgBreak"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+            <RadioButton
+                android:id="@+id/rbBreakOff"
+                android:text="未预约"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <RadioButton
+                android:id="@+id/rbBreadOn"
+                android:text="已预约"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+        </RadioGroup>
+
+
     </LinearLayout>
     <LinearLayout
         android:paddingLeft="20dp"
@@ -137,56 +169,32 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btUpdate"
-             android:layout_centerHorizontal="true"
-            android:text="确认填报"
-            android:textSize="@dimen/tv_h2"
-            android:textColor="@color/textColor"
-            android:background="@drawable/bt_style"
-            android:layout_width="100dp"
-            android:layout_height="30dp"/>
-
-        <Button
-            android:id="@+id/btRevertUpdate"
-            android:text="撤销填报"
-            android:textSize="@dimen/tv_h2"
-            android:textColor="@color/textColor"
-            android:background="@drawable/bt_style"
-            android:layout_width="100dp"
-            android:layout_height="30dp"/>
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/btQuery"
-        android:layout_marginLeft="10dp"
-        android:text="查询/预览"
-        android:textSize="@dimen/tv_h2"
-        android:textColor="@color/textColor"
-        android:background="@drawable/bt_style"
-        android:layout_width="100dp"
-        android:layout_height="30dp"/>
-    <RelativeLayout
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_marginLeft="30dp"
+            android:id="@+id/ivCode"
+            android:layout_width="80dp"
+            android:layout_height="30dp"/>
+
         <EditText
+            android:layout_toRightOf="@+id/ivCode"
             android:id="@+id/etCode"
             style="@style/input_et"
             android:layout_width="80dp" />
 
-       <ImageView
-           android:id="@+id/ivCode"
-           android:layout_toRightOf="@+id/etCode"
-           android:layout_marginLeft="30dp"
-           android:layout_width="80dp"
-           android:layout_height="30dp"/>
+        <Button
+            android:id="@+id/btQuery"
+            android:layout_marginRight="30dp"
+            android:layout_alignParentRight="true"
+            android:text="查询/预览"
+            android:textSize="@dimen/tv_h2"
+            android:textColor="@color/textColor"
+            android:background="@drawable/bt_style"
+            android:layout_width="100dp"
+            android:layout_height="30dp"/>
 
     </RelativeLayout>
 

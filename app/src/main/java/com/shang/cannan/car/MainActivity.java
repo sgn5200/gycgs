@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -135,6 +136,17 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 		lvMay.setAdapter(mayAdapter);
 		lvMay.setDivider(new ColorDrawable(0xfb4d4d4d));
 		lvMay.setDividerHeight(2);
+		lvMay.setOnScrollListener(new AbsListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				Log.i(TAG,scrollState+"--");
+				requestCurData() ;
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+			}
+		});
 	}
 
 	private void initSpinner() {
@@ -215,6 +227,11 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 			showToast("请选择服务站点后重试");
 			return;
 		}
+
+		if(progress.isShowing()){
+			return;
+		}
+
 		progress= CustomProgress.show(this,"刷新中",true,null);
 		StringBuffer buffer = new StringBuffer(UrlConstant.URL_MaySiteList);
 		buffer.append("?bespeakServiceNo=")

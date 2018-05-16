@@ -94,12 +94,14 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 				if(isChecked){
 					List<OwnerVo> dataList=adapter.getDataList();
 					for(OwnerVo ownerVo:dataList){
-						ownerVo.setChecked(isChecked);
+						if(ownerVo.getOkStatus()!=1 && ownerVo.getUpdateStatus()!=1){
+							ownerVo.setChecked(true);
+						}
 					}
 				}else{
 					List<OwnerVo> dataList=adapter.getDataList();
 					for(OwnerVo ownerVo:dataList){
-						ownerVo.setChecked(isChecked);
+						ownerVo.setChecked(false);
 					}
 				}
 				adapter.notifyDataSetChanged();

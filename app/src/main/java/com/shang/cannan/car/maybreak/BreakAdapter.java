@@ -53,6 +53,7 @@ public class BreakAdapter extends BaseAdapter {
 		if(removeItem!=null){
 			mListData.remove(removeItem);
 		}
+		vo.setChecked(false);
 		mListData.add(vo);
 		notifyDataSetChanged();
 	}
@@ -96,6 +97,7 @@ public class BreakAdapter extends BaseAdapter {
 			holder.tvCardType =(TextView) convertView.findViewById(R.id.tvCardType) ;
 			holder.tvStatus =(TextView) convertView.findViewById(R.id.tvStatus) ;
 			holder.checkBox = convertView.findViewById(R.id.checkbox);
+			holder.tvStatus2 = convertView.findViewById(R.id.tvStatus2);
 			convertView.setTag(holder);
 		}
 		holder = (Holder) convertView.getTag() ;
@@ -113,12 +115,25 @@ public class BreakAdapter extends BaseAdapter {
 		if(ownerVo.getOkStatus()==1){
 			holder.tvStatus.setBackgroundResource(R.color.click_on);
 			holder.tvStatus.setText("已预约");
+			holder.checkBox.setClickable(false);
 			holder.checkBox.setVisibility(View.GONE);
 		}else{
+			holder.checkBox.setClickable(true);
 			holder.checkBox.setVisibility(View.VISIBLE);
 			holder.tvStatus.setBackgroundResource(R.color.click_off);
 			holder.tvStatus.setText("未预约");
 		}
+
+		if(ownerVo.getUpdateStatus()==1){
+			holder.tvStatus2.setBackgroundResource(R.color.btnBgOn);
+			holder.tvStatus2.setText("已填报");
+			holder.checkBox.setVisibility(View.GONE);
+		}else{
+			holder.checkBox.setVisibility(View.VISIBLE);
+			holder.tvStatus2.setBackgroundResource(R.color.click_off);
+			holder.tvStatus2.setText("未填报");
+		}
+
 		if(ownerVo.getCardType()==1){
 			holder.tvCardType.setText("身份证");
 		}else if(ownerVo.getCardType()==2){
@@ -144,7 +159,7 @@ public class BreakAdapter extends BaseAdapter {
 	}
 
 	private class Holder{
-		private TextView tvName,tvCard,tvCode,tvTime,tvStatus,tvCardType;
+		private TextView tvName,tvCard,tvCode,tvTime,tvStatus,tvCardType,tvStatus2;
 		private CheckBox checkBox;
 	}
 }

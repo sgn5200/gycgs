@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +16,7 @@ import com.lansent.cannan.util.Log;
 import com.lansent.cannan.util.SharePreUtils;
 import com.shang.cannan.car.MyApp;
 import com.shang.cannan.car.R;
+import com.shang.cannan.car.dao.OwnerDao;
 import com.shang.cannan.car.query.BreakQueryActivity;
 import com.shang.cannan.car.util.CustomProgress;
 import com.shang.cannan.car.vo.OwnerVo;
@@ -25,14 +27,15 @@ import java.util.Locale;
 
 public class PersonDetailActivity extends AbsBaseActivity implements View.OnClickListener, PersonView {
 	OwnerVo vo;
-	private TextView tvUsername, tvCode, tvCard, tvPersonType, tvOpType, tvCarType, tvUpdateStatus, tvOkStatus, tvTime;
-	private Button btRevertUpdate, btUpdate;
+	private TextView tvUsername, tvCode, tvCard, tvPersonType, tvOpType, tvCarType,  tvTime;
 	private PersonPresent present;
 	private String token;
 
 	Button btQuery;
 	private ImageView ivCode;
 	private EditText etCode;
+	private RadioGroup rgSub,rgBreak;
+
 
 	@Override
 	public int getLayout() {
@@ -52,6 +55,8 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 
 		ivCode = getView(R.id.ivCode);
 		etCode = getView(R.id.etCode);
+		rgSub  = getView(R.id.rgSub);
+		rgBreak = getView(R.id.rgBreak);
 
 		tvUsername = getView(R.id.tvUsername);
 		View topLeft = getView(R.id.topLeftIv);
@@ -60,10 +65,6 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 		TextView tv = getView(R.id.topTitleTv);
 		tv.setText("填报/预约");
 
-		btRevertUpdate = getView(R.id.btRevertUpdate);
-		btUpdate = getView(R.id.btUpdate);
-		btUpdate.setVisibility(View.GONE);
-		btRevertUpdate.setVisibility(View.GONE);
 		btQuery = getView(R.id.btQuery);
 		initListener(this, btQuery, ivCode);
 		tvUsername.setText(vo.getOwnerName());
@@ -72,10 +73,28 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 		tvPersonType = getView(R.id.tvPersonType);
 		tvOpType = getView(R.id.tvOpType);
 		tvCarType = getView(R.id.tvCarType);
-		tvUpdateStatus = getView(R.id.tvUpdateStatus);
-		tvOkStatus = getView(R.id.tvOkStatus);
 		tvTime = getView(R.id.tvTime);
 		present = new PersonPresent(this, this, token);
+
+		rgSub.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				int sub = checkedId==R.id.rbSubOn?1:0;
+				vo.setUpdateStatus(sub);
+				OwnerDao.getInstance(MyApp.helper).update(vo);
+			}
+		});
+
+		rgBreak.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				vo.setOkStatus(checkedId==R.id.rbBreadOn?1:0);
+				OwnerDao.getInstance(MyApp.helper).update(vo);
+			}
+		});
+
+		rgSub.check(vo.getUpdateStatus() == 1 ?R.id.rbSubOn:R.id.rbSubOff);
+		rgBreak.check(vo.getOkStatus() == 1 ?R.id.rbBreadOn:R.id.rbBreakOff);
 
 		setData(vo);
 	}
@@ -87,8 +106,6 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 		tvPersonType.setText(vo.getOwnerType() == 1 ? "个人" : "单位");
 		tvOpType.setText(MyApp.CarServiceNo[vo.getCarServiceNo()]);
 		tvCarType.setText(MyApp.NumberType[vo.getNumberType()]);
-		tvUpdateStatus.setText(vo.getUpdateStatus() == 1 ? "已填报" : "未填报");
-		tvOkStatus.setText(vo.getOkStatus() == 1 ? "已预约" : "未预约");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 
 		tvTime.setText(sdf.format(new Date(Long.valueOf(vo.getCreateTime()))));
