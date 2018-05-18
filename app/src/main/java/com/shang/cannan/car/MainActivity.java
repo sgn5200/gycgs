@@ -7,10 +7,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
@@ -42,14 +40,17 @@ import com.shang.cannan.car.util.UrlConstant;
 import com.shang.cannan.car.vo.MayInfoVo;
 import com.shang.cannan.car.vo.SiteVo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
 
 public class MainActivity extends AbsBaseActivity implements View.OnClickListener {
 
-	private String token;
 
 	/**
 	 * UI
@@ -78,7 +79,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 		spOptin = getView(R.id.spOp);
 		spCar = getView(R.id.spCar);
 		spSite = getView(R.id.spSite);
-		Log.i(TAG, token);
 
 		TextView tvTitle = getView(R.id.topTitleTv);
 		tvTitle.setText("车辆预约");
@@ -111,6 +111,31 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 					case "预约查询":
 						lunchActivity(BreakQueryActivity.class,null,false);
 						break;
+					case "一  阳  指":
+						MayInfoVo cur = mayAdapter.getItem(0);
+						Bundle bundle = new Bundle();
+						bundle.putBoolean("isAm",false);        //  tvSiteName, tvTimepart, tvDate
+						bundle.putString("siteName",cur.getBespeakSiteName());
+						bundle.putString("siteNo",cur.getBespeakSiteNo());
+
+						String data = cur.getBespeakDateHtml();
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+						try {
+							Date newData = sdf.parse(data);
+							long lastDay = newData.getTime();
+							long newLast = lastDay+86400000;
+							String newStrData = sdf.format(new Date(newLast));
+							Log.i(TAG,newStrData+"--");
+							bundle.putString("date",newStrData);
+							lunchActivity(MayBreakActivity.class,bundle,false);
+						} catch (ParseException e) {
+							e.printStackTrace();
+							break;
+						}
+
+
+
+						break;
 				}
 				drawerLayout.closeDrawer(navigationView);
 				return true;
@@ -140,7 +165,9 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 			@Override
 			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				Log.i(TAG,scrollState+"--");
-				requestCurData() ;
+				if(scrollState==0){
+					requestCurData() ;
+				}
 			}
 
 			@Override
@@ -155,9 +182,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 		spOptin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				TextView tv = (TextView)view;
-				tv.setTextSize(12.0f);    //设置大小
-				tv.setGravity(Gravity.CENTER);   //设置居中
 				indexOp = position;
 				getSiteList();
 			}
@@ -171,11 +195,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				indexCar = position;
-				TextView tv = (TextView)view;
-				tv.setTextSize(12.0f);    //设置大小
-				tv.setGravity(Gravity.CENTER);   //设置居中
-				tv.setMaxLines(1);
-				tv.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
 				getSiteList();
 			}
 
@@ -190,11 +209,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 		spSite.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-				TextView tv = (TextView)view;
-				tv.setTextSize(12.0f);    //设置大小
-				tv.setGravity(Gravity.CENTER);   //设置居中
-				tv.setMaxLines(1);
-				tv.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
 				indexSite = siteAdapter.getItem(position).getBespeakSiteNo();
 				requestCurData();
 			}

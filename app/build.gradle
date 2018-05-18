@@ -6,8 +6,8 @@ android {
         applicationId "com.shang.cannan.car"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 5
-        versionName "创世纪 v1.5"
+        versionCode 6
+        versionName "创世纪 v1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -16,12 +16,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        main {
+            jni.srcDirs = ['libs']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
     implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
     implementation 'com.android.support:design:26.0.0-beta1'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile project(':myrx')
     compile 'org.jsoup:jsoup:1.11.3'
-    implementation files('libs/glide-3.7.0.jar')
 }

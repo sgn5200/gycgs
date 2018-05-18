@@ -3,20 +3,24 @@
 
     <item
         android:id="@+id/wallet"
-        android:icon="@mipmap/icon"
+        android:icon="@mipmap/menu"
         android:title="信息填报"/>
     <item
         android:id="@+id/file"
-        android:icon="@mipmap/icon"
+        android:icon="@mipmap/menu"
         android:title="所有客户"/>
 
     <item
         android:id="@+id/photo"
-        android:icon="@mipmap/icon"
+        android:icon="@mipmap/menu"
         android:title="预约查询"/>
 
     <item
+        android:icon="@mipmap/menu"
+        android:title="一  阳  指"/>
+
+    <item
         android:id="@+id/ss2"
-        android:icon="@mipmap/icon"
+        android:icon="@mipmap/menu"
         android:title="切换账号"/>
 </menu>

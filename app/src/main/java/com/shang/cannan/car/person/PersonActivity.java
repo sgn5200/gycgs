@@ -37,8 +37,6 @@ public class PersonActivity extends AbsBaseActivity implements View.OnClickListe
 	private OwnerVo longClick;
 	private AlertDialog.Builder builder;
 	private CheckBox checkBox;//预约显示
-	private CheckBox right;
-
 
 	@Override
 	public int getLayout() {
@@ -53,7 +51,6 @@ public class PersonActivity extends AbsBaseActivity implements View.OnClickListe
 		left.setOnClickListener(this);
 		TextView tv = getView(R.id.topTitleTv);
 		tv.setText("客户列表");
-		right = getView(R.id.topRightIv);
 		lvPerson = getView(R.id.lvPerson);
 		adapter = new PersonAdapter(this);
 		lvPerson.setAdapter(adapter);

@@ -167,36 +167,79 @@
             android:id="@+id/tvTime"
             style="@style/input_lab"/>
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
+    <View
+        android:layout_marginTop="8dp"
+        android:background="@color/lineColor"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <LinearLayout
+        android:background="@color/hintColor"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:layout_marginLeft="30dp"
             android:id="@+id/ivCode"
-            android:layout_width="80dp"
-            android:layout_height="30dp"/>
+            android:scaleType="centerCrop"
+            android:layout_width="100dp"
+            android:layout_height="40dp"/>
+
+        <View
+            android:background="@color/lineColor"
+            android:layout_width="1px"
+            android:layout_height="match_parent" />
 
         <EditText
-            android:layout_toRightOf="@+id/ivCode"
             android:id="@+id/etCode"
             style="@style/input_et"
-            android:layout_width="80dp" />
-
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_height="30dp"
+            android:layout_width="60dp" />
+        <View
+            android:background="@color/lineColor"
+            android:layout_width="1px"
+            android:layout_height="match_parent" />
         <Button
             android:id="@+id/btQuery"
-            android:layout_marginRight="30dp"
             android:layout_alignParentRight="true"
             android:text="查询/预览"
             android:textSize="@dimen/tv_h2"
             android:textColor="@color/textColor"
             android:background="@drawable/bt_style"
-            android:layout_width="100dp"
-            android:layout_height="30dp"/>
+            android:layout_width="80dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="24dp"/>
+        <View
+            android:background="@color/lineColor"
+            android:layout_width="1px"
+            android:layout_height="match_parent" />
 
-    </RelativeLayout>
+        <Button
+            android:visibility="gone"
+            android:id="@+id/btRevert"
+            android:layout_alignParentRight="true"
+            android:text="撤销"
+            android:textSize="@dimen/tv_h2"
+            android:textColor="@color/textColor"
+            android:background="@drawable/bt_style"
+            android:layout_width="80dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="24dp"/>
 
+    </LinearLayout>
+    <View
+        android:background="@color/lineColor"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+    <ListView
+        android:background="@color/textBg"
+        android:id="@+id/lvReview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

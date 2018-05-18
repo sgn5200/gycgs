@@ -1,11 +1,14 @@
 package com.shang.cannan.car.adapter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shang.cannan.car.R;
 import com.shang.cannan.car.vo.OwnerVo;
@@ -24,12 +27,17 @@ import java.util.Locale;
  */
 
 public class PersonAdapter extends BaseAdapter {
+	private final ClipboardManager mClipboardManager;
 	private LayoutInflater inflater;
 	private List<OwnerVo> mListData;
 	private SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+	private Context context;
 
 	public PersonAdapter(Context context){
 		inflater = LayoutInflater.from(context);
+		this.context =context;
+		mClipboardManager =(ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+
 	}
 
 	public void setDaata(List<OwnerVo> listVo){
@@ -78,6 +86,17 @@ public class PersonAdapter extends BaseAdapter {
 		holder.tvName.setText(ownerVo.getOwnerName());
 		holder.tvCard.setText(ownerVo.getCardCode());
 		holder.tvCode.setText(ownerVo.getIdentCode());
+
+		holder.tvName.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				String mData = ownerVo.getOwnerName()+"\n"+ownerVo.getIdentCode()+"\n"+ownerVo.getCardCode();
+				ClipData mClipData =ClipData.newPlainText("user",mData);
+				mClipboardManager.setPrimaryClip(mClipData);
+				Toast.makeText(context,"已复制:\n"+mData,Toast.LENGTH_SHORT).show();
+				return true;
+			}
+		});
 
 		holder.tvTime.setText(sdf.format(new Date(Long.valueOf(ownerVo.getCreateTime()))));
 		holder.tvUpdateStatus.setText(ownerVo.getUpdateStatus()==1?"已填报":"未填报");

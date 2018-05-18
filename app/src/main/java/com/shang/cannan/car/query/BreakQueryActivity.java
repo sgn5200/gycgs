@@ -18,6 +18,7 @@ public class BreakQueryActivity extends AbsBaseActivity {
 
 	private WebView webView;
 	private String urlHtml;
+	private String infoUrl;
 
 	@Override
 	public int getLayout() {
@@ -27,22 +28,39 @@ public class BreakQueryActivity extends AbsBaseActivity {
 	@Override
 	public void initViews() {
 		webView = getView(R.id.webView);
-		if(getIntent()!=null&&getIntent().getExtras()!=null){
-			urlHtml=getIntent().getExtras().getString("urlHtml");
-			webView.setOnTouchListener(new View.OnTouchListener() {
-				@Override
-				public boolean onTouch(View v, MotionEvent event) {
-					finish();
-					return true;
-				}
-			});
+		Bundle bundle =getIntent().getExtras();
+		if(bundle!=null){
+			urlHtml=bundle.getString("urlHtml");
+			if(TextUtils.isEmpty(urlHtml)){
+				infoUrl=bundle.getString("infoUrl");
+			}else {
+				webView.setOnTouchListener(new View.OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						finish();
+						return true;
+					}
+				});
+			}
 		}
-		initWeb(urlHtml);
+
+		if(bundle!=null ){
+
+		}
+
+		 if(!TextUtils.isEmpty(urlHtml)){
+			 initWeb(urlHtml,false);
+
+		 }else if(TextUtils.isEmpty(infoUrl)){
+		 	initWeb("http://gycgs.gzbxd.com/CarAPP/CarRecord/Query",true);
+		 }else {
+		 	initWeb(infoUrl,true);
+		 }
 
 	}
 
 
-	private void initWeb(String urlHtml) {
+	private void initWeb(String urlHtml,boolean flag) {
 
 		WebSettings settings = webView.getSettings();
 		//默认是false 设置true允许和js交互
@@ -66,8 +84,8 @@ public class BreakQueryActivity extends AbsBaseActivity {
 		settings.setAppCachePath(cachePath);
 		settings.setAppCacheMaxSize(5 * 1024 * 1024);
 		webView.setWebViewClient(new MyWebViewClient());
-		if(TextUtils.isEmpty(urlHtml)){
-			webView.loadUrl("http://gycgs.gzbxd.com/CarAPP/CarRecord/Query");
+		if(flag){
+			webView.loadUrl(urlHtml);
 		}else{
 			webView.loadData(urlHtml, "text/html; charset=UTF-8", null);//这种写法可以正确解码
 		}

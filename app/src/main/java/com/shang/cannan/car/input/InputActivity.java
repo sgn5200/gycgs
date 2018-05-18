@@ -1,5 +1,8 @@
 package com.shang.cannan.car.input;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -22,13 +25,15 @@ import com.shang.cannan.car.dao.OwnerDao;
 import com.shang.cannan.car.util.SystemStatusManager;
 import com.shang.cannan.car.vo.OwnerVo;
 
-public class InputActivity extends AbsBaseActivity implements View.OnClickListener{
+public class InputActivity extends AbsBaseActivity implements View.OnClickListener {
 
 	/**** ui****/
-	private Spinner spOp,spCar,spCard;
-	private EditText etCode,etUsername,etCard;    //识别代号  用户名  身份证号码
+	private Spinner spOp, spCar, spCard;
+	private EditText etCode, etUsername, etCard;    //识别代号  用户名  身份证号码
 	private RadioGroup rg;
 	private Button btSave;
+
+	private ClipboardManager mClipboardManager;
 
 
 	@Override
@@ -38,7 +43,8 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 
 	@Override
 	public void initViews() {
-	   initWindow();
+		initWindow();
+		mClipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
 		etCard = getView(R.id.etCard);
 		etUsername = getView(R.id.etUsername);
 		spCard = getView(R.id.spCard);
@@ -71,16 +77,16 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
-				if(RegexUtils.isAgentCode(s)){
-				 	String card = etCard.getText().toString();
-				 	if(RegexUtils.isIDCard15(card)||RegexUtils.isIDCard18(card)){
+				if (RegexUtils.isAgentCode(s)) {
+					String card = etCard.getText().toString();
+					if (RegexUtils.isIDCard15(card) || RegexUtils.isIDCard18(card)) {
 						btSave.setEnabled(true);
-					}else{
-				 		btSave.setEnabled(false);
+					} else {
+						btSave.setEnabled(false);
 					}
-				 } else {
-				 	btSave.setEnabled(false);
-				 }
+				} else {
+					btSave.setEnabled(false);
+				}
 			}
 
 			@Override
@@ -97,16 +103,16 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				   if(RegexUtils.isIDCard15(s) || RegexUtils.isIDCard18(s)){
-				   	    String agent =etCode.getText().toString();
-				   	    if(RegexUtils.isAgentCode(agent)){
-				   	    	btSave.setEnabled(true);
-						}else{
-							btSave.setEnabled(false);
-						}
-				   }else{
-				   		btSave.setEnabled(false);
-				   }
+				if (RegexUtils.isIDCard15(s) || RegexUtils.isIDCard18(s)) {
+					String agent = etCode.getText().toString();
+					if (RegexUtils.isAgentCode(agent)) {
+						btSave.setEnabled(true);
+					} else {
+						btSave.setEnabled(false);
+					}
+				} else {
+					btSave.setEnabled(false);
+				}
 			}
 
 			@Override
@@ -114,7 +120,7 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 
 			}
 		});
-	   spCard.setSelection(0);
+		spCard.setSelection(0);
 	}
 
 	private void initWindow() {//初始化窗口属性，让状态栏和导航栏透明
@@ -132,23 +138,23 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()){
+		switch (v.getId()) {
 			case R.id.topLeftIv:
 				finish();
 				break;
 			case R.id.btSave:
-				OwnerVo voSave= getVo();
+				OwnerVo voSave = getVo();
 
-				Log.i(TAG,voSave.toString());
-				
-				if(voSave!=null){
+				Log.i(TAG, voSave.toString());
+
+				if (voSave != null) {
 					try {
 						OwnerDao.getInstance(MyApp.helper).insert(voSave);
 						showToast("保存成功");
 						etCard.setText("");
 						etCode.setText("");
 						etUsername.setText("");
-					}catch (Exception e){
+					} catch (Exception e) {
 						showToast("保存失败");
 					}
 				}
@@ -156,34 +162,58 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 		}
 	}
 
-	public OwnerVo getVo() {
-		OwnerVo vo= null;
+	@Override
+	protected void onResume() {
+		super.onResume();
+		ClipData clipData = mClipboardManager.getPrimaryClip();
 
-		int opPosition =spOp.getSelectedItemPosition();
-		int carPosition =spCar.getSelectedItemPosition();
-		int cardPostion = spCard.getSelectedItemPosition()+1;
-		int OwnerType =0;
-		if(rg.getCheckedRadioButtonId()==R.id.rbUserSign){
-			OwnerType= 1;
-		}else if(rg.getCheckedRadioButtonId() == R.id.rbUserAll){
-			OwnerType =2;
+		if(clipData==null)
+			return;
+		ClipData.Item curItem = clipData.getItemAt(0);
+		if(curItem==null || curItem.getText()==null){
+			return;
+		}
+		String text = curItem.getText().toString();
+		Log.i(TAG,text);
+		String[] user = text.split("\n");
+		if(user.length!=3){
+			return;
 		}
 
-		 if(opPosition==0 || carPosition ==0 ||OwnerType==0){
-		 	showToast("业务类型/车辆类型未选择");
-		 	return vo;
-		 }
-		 String authorCode = etCode.getText().toString();
-		 String cardCode = etCard.getText().toString();
-		 String userName = etUsername.getText().toString();
-		 if(TextUtils.isEmpty(userName)||TextUtils.isEmpty(cardCode)||TextUtils.isEmpty(authorCode)){
-		 	showToast("名字/识别代码/证件 没有正确填写");
-		 	return vo;
-		 }
+		etUsername.setText(user[0]);
+		etCode.setText(user[1]);
+		etCard.setText(user[2]);
 
-		 vo = new OwnerVo();
+	}
+
+	public OwnerVo getVo() {
+		OwnerVo vo = null;
+
+		int opPosition = spOp.getSelectedItemPosition();
+		int carPosition = spCar.getSelectedItemPosition();
+		int cardPostion = spCard.getSelectedItemPosition() + 1;
+		int OwnerType = 0;
+		if (rg.getCheckedRadioButtonId() == R.id.rbUserSign) {
+			OwnerType = 1;
+		} else if (rg.getCheckedRadioButtonId() == R.id.rbUserAll) {
+			OwnerType = 2;
+		}
+
+		if (opPosition == 0 || carPosition == 0 || OwnerType == 0) {
+			showToast("业务类型/车辆类型未选择");
+			return vo;
+		}
+		String authorCode = etCode.getText().toString();
+		String cardCode = etCard.getText().toString();
+		String userName = etUsername.getText().toString();
+		if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(cardCode) || TextUtils.isEmpty(authorCode)) {
+			showToast("名字/识别代码/证件 没有正确填写");
+			return vo;
+		}
+
+		vo = new OwnerVo();
 		vo.setCarServiceNo(opPosition);  //业务类型
-		 vo.setNumberType(carPosition);//车辆类型
+		vo.setNumberType(carPosition);//车辆类型
 		vo.setIdentCode(authorCode);    //识别代码
 		vo.setCardCode(cardCode);       //证件号
 		vo.setCardType(cardPostion);    //证件类型

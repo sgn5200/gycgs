@@ -10,7 +10,7 @@
 
     <style name="input_lab">
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:textSize">@dimen/tv_h2</item>
+        <item name="android:textSize">@dimen/tv_h3</item>
         <item name="android:textColor">@color/textLabCol</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

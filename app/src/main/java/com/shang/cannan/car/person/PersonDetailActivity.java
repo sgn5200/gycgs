@@ -1,41 +1,44 @@
 package com.shang.cannan.car.person;
 
-import android.os.Bundle;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lansent.cannan.base.AbsBaseActivity;
 import com.lansent.cannan.util.Log;
 import com.lansent.cannan.util.SharePreUtils;
 import com.shang.cannan.car.MyApp;
 import com.shang.cannan.car.R;
 import com.shang.cannan.car.dao.OwnerDao;
-import com.shang.cannan.car.query.BreakQueryActivity;
 import com.shang.cannan.car.util.CustomProgress;
+import com.shang.cannan.car.util.ParsHtmlUtils;
 import com.shang.cannan.car.vo.OwnerVo;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 public class PersonDetailActivity extends AbsBaseActivity implements View.OnClickListener, PersonView {
 	OwnerVo vo;
-	private TextView tvUsername, tvCode, tvCard, tvPersonType, tvOpType, tvCarType,  tvTime;
+	private TextView tvUsername, tvCode, tvCard, tvPersonType, tvOpType, tvCarType, tvTime;
 	private PersonPresent present;
 	private String token;
 
 	Button btQuery;
 	private ImageView ivCode;
 	private EditText etCode;
-	private RadioGroup rgSub,rgBreak;
+	private RadioGroup rgSub, rgBreak;
 
+	private ListView lvResult;
 
 	@Override
 	public int getLayout() {
@@ -53,9 +56,10 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 			return;
 		}
 
+		lvResult = getView(R.id.lvReview);
 		ivCode = getView(R.id.ivCode);
 		etCode = getView(R.id.etCode);
-		rgSub  = getView(R.id.rgSub);
+		rgSub = getView(R.id.rgSub);
 		rgBreak = getView(R.id.rgBreak);
 
 		tvUsername = getView(R.id.tvUsername);
@@ -79,7 +83,7 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 		rgSub.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				int sub = checkedId==R.id.rbSubOn?1:0;
+				int sub = checkedId == R.id.rbSubOn ? 1 : 0;
 				vo.setUpdateStatus(sub);
 				OwnerDao.getInstance(MyApp.helper).update(vo);
 			}
@@ -88,14 +92,13 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 		rgBreak.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				vo.setOkStatus(checkedId==R.id.rbBreadOn?1:0);
+				vo.setOkStatus(checkedId == R.id.rbBreadOn ? 1 : 0);
 				OwnerDao.getInstance(MyApp.helper).update(vo);
 			}
 		});
 
-		rgSub.check(vo.getUpdateStatus() == 1 ?R.id.rbSubOn:R.id.rbSubOff);
-		rgBreak.check(vo.getOkStatus() == 1 ?R.id.rbBreadOn:R.id.rbBreakOff);
-
+		rgSub.check(vo.getUpdateStatus() == 1 ? R.id.rbSubOn : R.id.rbSubOff);
+		rgBreak.check(vo.getOkStatus() == 1 ? R.id.rbBreadOn : R.id.rbBreakOff);
 		setData(vo);
 	}
 
@@ -112,6 +115,10 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 		present.loadCode();
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
 
 
 	@Override
@@ -124,18 +131,19 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 				present.loadCode();
 				break;
 			case R.id.btQuery:
-				String code =etCode.getText().toString();
-				if(TextUtils.isEmpty(code)){
+				String code = etCode.getText().toString();
+				if (TextUtils.isEmpty(code)) {
 					showToast("宝宝，你的验证码呢？");
 					return;
 				}
-				present.query(vo,code);  //http://gycgs.gzbxd.com/CarAPP/CarRecord/Query
+				present.query(vo, code);  //http://gycgs.gzbxd.com/CarAPP/CarRecord/Query
 				break;
 		}
 	}
 
 
 	CustomProgress customProgress;
+
 	@Override
 	public void showDialog(boolean show) {
 		if (show) {
@@ -145,24 +153,25 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 		}
 	}
 
+
 	@Override
-	public void loadCode(boolean success,byte[] bytes)  {
-		if (success) {
-			Glide.with(PersonDetailActivity.this)
-					.load(bytes)
-					.diskCacheStrategy(DiskCacheStrategy.NONE)
-					.skipMemoryCache(true)
-					.into(ivCode);
-		} else {
-			showToast("验证码获取失败");
-		}
+	public void loadCode(boolean success, byte[] bytes) {
+		Log.i(TAG, "获取验证码成功");
+		final Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+		ivCode.setImageBitmap(bitmap);
 	}
 
 
 	@Override
-	public void query(boolean rs,final String  msg) {
-		Bundle bundle = new Bundle();
-		bundle.putString("urlHtml",msg);
-		lunchActivity(BreakQueryActivity.class,bundle,false);
+	public void query(boolean rs, final String msg) {
+		String error = ParsHtmlUtils.getErrorInfo(msg);
+		Log.i(TAG, error);
+		if (!TextUtils.isEmpty(error)) {
+			showToast(error);
+		} else {
+			ArrayList<String> listResult = ParsHtmlUtils.getInfo(msg);
+			ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listResult);
+			lvResult.setAdapter(arrayAdapter);
+		}
 	}
 }

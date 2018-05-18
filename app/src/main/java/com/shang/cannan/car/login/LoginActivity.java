@@ -2,8 +2,10 @@ package com.shang.cannan.car.login;
 
 import android.annotation.TargetApi;
 import android.content.pm.PackageManager;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.lansent.cannan.base.AbsBaseActivity;
 import com.lansent.cannan.util.Log;
@@ -22,6 +25,7 @@ import com.lansent.cannan.util.RxEvent;
 import com.lansent.cannan.util.SharePreUtils;
 import com.shang.cannan.car.MainActivity;
 import com.shang.cannan.car.R;
+import com.shang.cannan.car.query.BreakQueryActivity;
 import com.shang.cannan.car.reciver.SmsContent;
 import com.shang.cannan.car.util.CustomProgress;
 
@@ -46,6 +50,7 @@ public class LoginActivity extends AbsBaseActivity implements View.OnClickListen
 	private Button btLogn,btPhone;
 
 	private LoginPresent loginPresent;
+	private TextView tvInfo;
 
 	private String phone,sms;//手机号/验证码
 
@@ -75,7 +80,10 @@ public class LoginActivity extends AbsBaseActivity implements View.OnClickListen
 		etSms = getView(R.id.sms_code);
 		btPhone = getView(R.id.btPhone);
 		btLogn = getView(R.id.btLogin);
-
+		tvInfo = getView(R.id.tvInfo);
+		tvInfo.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+		tvInfo.getPaint().setAntiAlias(true);//抗锯齿
+		tvInfo.setOnClickListener(this);
 		btLogn.setEnabled(false);
 		btPhone.setEnabled(false);
 		btLogn.setOnClickListener(this);
@@ -213,6 +221,11 @@ public class LoginActivity extends AbsBaseActivity implements View.OnClickListen
 				break;
 			case R.id.btLogin:
 				login();
+				break;
+			case R.id.tvInfo:
+				Bundle bundle = new Bundle();
+				bundle.putString("infoUrl","http://gycgs.gzbxd.com/CarAPP/CarRecord/Read");
+				lunchActivity(BreakQueryActivity.class,bundle,false);
 				break;
 		}
 	}

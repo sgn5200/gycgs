@@ -90,6 +90,18 @@
             android:text="@string/action_sign_in"
             android:textStyle="bold"/>
 
+        <TextView
+            android:id="@+id/tvInfo"
+            android:autoLink="web"
+            android:textColor="#2157e1"
+            android:gravity="center_horizontal"
+            android:text="本应用信息来源于贵阳市车管所网站\n登录即同意协议"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
     <TextView
         android:id="@+id/tv"
