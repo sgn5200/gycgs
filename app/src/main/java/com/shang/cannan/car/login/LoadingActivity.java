@@ -1,7 +1,7 @@
 package com.shang.cannan.car.login;
 
+import android.os.Handler;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.lansent.cannan.base.AbsBaseActivity;
 import com.lansent.cannan.util.SharePreUtils;
@@ -21,11 +21,10 @@ public class LoadingActivity extends AbsBaseActivity implements LoginPresent.Log
 
 	@Override
 	public void initViews() {
-		View iv = getView(R.id.tv);
 		boolean isWx=SharePreUtils.getBoolConfig(this,"loginType");
 		MyApp.initHttp(isWx);
 		if (login()) return;
-		iv.postDelayed(new Runnable() {
+		new Handler().postDelayed(new Runnable() {
 			public void run() {
 				lunchActivity(LoginActivity.class, null, true);
 			}

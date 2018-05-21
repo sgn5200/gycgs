@@ -24,12 +24,9 @@
     <ImageView
         android:id="@+id/ivCamera"
         android:scaleType="centerInside"
-        android:src="@mipmap/to_camera_pressed"
         android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="200dp"/>
-
-
 
 
 </RelativeLayout>

@@ -19,6 +19,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
+
+
+    <TextView
+        android:text="@string/app_name"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:textSize="36sp"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <LinearLayout
         android:layout_marginTop="30dp"
        android:layout_centerInParent="true"
@@ -96,6 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
            <TextView
+               android:layout_centerVertical="true"
                android:id="@+id/tvNext"
                android:text="跳过登录"
                android:padding="3dp"
@@ -103,13 +116,16 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"/>
             <Switch
-                android:switchMinWidth="20dp"
+                android:layout_centerVertical="true"
                 android:id="@+id/swLogin"
                 android:text="@string/on"
+                android:switchPadding="5dp"
+                android:thumb="@drawable/green_thumb"
+                android:track="@drawable/gray_thumb"
                 android:textColor="@color/colorPrimary"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"/>
+                android:layout_height="wrap_content"/>
         </RelativeLayout>
 
 
@@ -120,7 +136,7 @@
             android:gravity="center_horizontal"
             android:text="本应用信息来源于贵阳市车管所网站\n登录即同意协议"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -131,9 +147,9 @@
         android:textSize="@dimen/tv_h1"
         android:textColor="@color/textColor"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="5dp"
         android:layout_centerHorizontal="true"
-        android:text="尽送给老婆大人的神器"
+        android:text="送给老婆大人的神器"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

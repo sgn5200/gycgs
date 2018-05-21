@@ -6,8 +6,8 @@ android {
         applicationId "com.shang.cannan.car"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 6
-        versionName "创世纪 v1.6"
+        versionCode 7
+        versionName "癞疙宝 v1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
