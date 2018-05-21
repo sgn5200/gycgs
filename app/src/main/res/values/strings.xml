@@ -11,4 +11,6 @@
         completions."
     </string>
     <string name="select">选择站区</string>
+    <string name="on">微信登录</string>
+    <string name="off">浏览器登录</string>
 </resources>

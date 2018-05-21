@@ -42,8 +42,6 @@
         </activity>
         <activity android:name=".maybreak.MayBreakActivity">
         </activity>
-        <activity android:name=".readimg.ImageSelectActivity">
-        </activity>
     </application>
 
 </manifest>

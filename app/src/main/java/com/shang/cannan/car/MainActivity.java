@@ -97,6 +97,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 			public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 				//item.setChecked(true);
 				String itemStr =   item.getTitle().toString();
+				Bundle bundle = new Bundle();
 				switch (itemStr){
 					case "信息填报":
 						lunchActivity(InputActivity.class,null,false);
@@ -109,11 +110,16 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 						lunchActivity(LoginActivity.class,null,false);
 						break;
 					case "预约查询":
-						lunchActivity(BreakQueryActivity.class,null,false);
+						bundle.putInt("type",1);
+						bundle.putString("url",UrlConstant.URL_Query);
+						lunchActivity(BreakQueryActivity.class,bundle,false);
 						break;
 					case "一  阳  指":
 						MayInfoVo cur = mayAdapter.getItem(0);
-						Bundle bundle = new Bundle();
+						if(cur == null){
+							break;
+						}
+						showToast("谨慎使用，");
 						bundle.putBoolean("isAm",false);        //  tvSiteName, tvTimepart, tvDate
 						bundle.putString("siteName",cur.getBespeakSiteName());
 						bundle.putString("siteNo",cur.getBespeakSiteNo());

@@ -6,6 +6,7 @@ import android.view.View;
 import com.lansent.cannan.base.AbsBaseActivity;
 import com.lansent.cannan.util.SharePreUtils;
 import com.shang.cannan.car.MainActivity;
+import com.shang.cannan.car.MyApp;
 import com.shang.cannan.car.R;
 import com.shang.cannan.car.util.CustomProgress;
 
@@ -21,7 +22,8 @@ public class LoadingActivity extends AbsBaseActivity implements LoginPresent.Log
 	@Override
 	public void initViews() {
 		View iv = getView(R.id.tv);
-
+		boolean isWx=SharePreUtils.getBoolConfig(this,"loginType");
+		MyApp.initHttp(isWx);
 		if (login()) return;
 		iv.postDelayed(new Runnable() {
 			public void run() {

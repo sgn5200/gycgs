@@ -14,20 +14,25 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
+import com.lansent.cannan.api.ApiManager;
 import com.lansent.cannan.base.AbsBaseActivity;
 import com.lansent.cannan.util.Log;
 import com.lansent.cannan.util.RegexUtils;
 import com.lansent.cannan.util.RxEvent;
 import com.lansent.cannan.util.SharePreUtils;
 import com.shang.cannan.car.MainActivity;
+import com.shang.cannan.car.MyApp;
 import com.shang.cannan.car.R;
 import com.shang.cannan.car.query.BreakQueryActivity;
 import com.shang.cannan.car.reciver.SmsContent;
 import com.shang.cannan.car.util.CustomProgress;
+import com.shang.cannan.car.util.UrlConstant;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -50,8 +55,8 @@ public class LoginActivity extends AbsBaseActivity implements View.OnClickListen
 	private Button btLogn,btPhone;
 
 	private LoginPresent loginPresent;
-	private TextView tvInfo;
-
+	private TextView tvInfo,tvNext;
+	private Switch aSwitchLoginType;
 	private String phone,sms;//手机号/验证码
 
 	@Override
@@ -76,6 +81,8 @@ public class LoginActivity extends AbsBaseActivity implements View.OnClickListen
 			}
 		});
 
+		aSwitchLoginType = getView(R.id.swLogin);
+		tvNext = getView(R.id.tvNext);
 		etPhone = getView(R.id.phone);
 		etSms = getView(R.id.sms_code);
 		btPhone = getView(R.id.btPhone);
@@ -84,6 +91,7 @@ public class LoginActivity extends AbsBaseActivity implements View.OnClickListen
 		tvInfo.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
 		tvInfo.getPaint().setAntiAlias(true);//抗锯齿
 		tvInfo.setOnClickListener(this);
+		tvNext.setOnClickListener(this);
 		btLogn.setEnabled(false);
 		btPhone.setEnabled(false);
 		btLogn.setOnClickListener(this);
@@ -96,7 +104,19 @@ public class LoginActivity extends AbsBaseActivity implements View.OnClickListen
 			this.getContentResolver().registerContentObserver(Uri.parse("content://sms/"), true, content);
 		}
 
+		aSwitchLoginType.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				buttonView.setText(isChecked?"微信登录":"浏览器登录");
+				ApiManager.clear();
+				MyApp.initHttp(isChecked);
+				SharePreUtils.saveBoolConfig(LoginActivity.this,"loginType",isChecked);
+			}
+		});
 
+		boolean isWx = SharePreUtils.getBoolConfig(LoginActivity.this,"loginType");
+		aSwitchLoginType.setText(isWx?"微信登录":"浏览器登录");
+		aSwitchLoginType.setChecked(isWx);
 		etPhone.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -216,16 +236,19 @@ public class LoginActivity extends AbsBaseActivity implements View.OnClickListen
 					return;
 				}
 				loginPresent.smsRequest(phone);
-
-				startTime();
 				break;
 			case R.id.btLogin:
 				login();
 				break;
 			case R.id.tvInfo:
 				Bundle bundle = new Bundle();
-				bundle.putString("infoUrl","http://gycgs.gzbxd.com/CarAPP/CarRecord/Read");
+				bundle.putString("url",UrlConstant.URL_Read);
+				bundle.putInt("type",1);
+				Log.i(TAG,UrlConstant.URL_Read);
 				lunchActivity(BreakQueryActivity.class,bundle,false);
+				break;
+			case R.id.tvNext:
+				lunchActivity(MainActivity.class,null,true);
 				break;
 		}
 	}
@@ -298,9 +321,11 @@ public class LoginActivity extends AbsBaseActivity implements View.OnClickListen
 	@Override
 	public void smsRequestResult(boolean isOk,String msg) {
 		    if(isOk){
-		    	showToast(msg);
+				startTime();
 			}else{
-		    	showToast(msg);
+				btPhone.setClickable(true);
+				btPhone.setText("获取短信");
+		    	showToast("获取验证码请求失败");
 			}
 	}
 

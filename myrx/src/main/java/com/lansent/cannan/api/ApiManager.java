@@ -104,6 +104,11 @@ public class ApiManager {
 		return instance;
 	}
 
+	public static void clear(){
+		config =null;
+		instance=null;
+	}
+
 
 	/**
 	 *

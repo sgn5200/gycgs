@@ -169,7 +169,8 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 			}
 
 			Bundle bundle = new Bundle();
-			bundle.putString("urlHtml",msg);
+			bundle.putString("html",msg);
+			bundle.putInt("type",2);
 			lunchActivityForResult(BreakQueryActivity.class,88,bundle);
 		}else{
 			if (success) {
@@ -180,7 +181,8 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 				OwnerDao.getInstance(MyApp.helper).update(curItem);
 			} else {
 				Bundle bundle = new Bundle();
-				bundle.putString("urlHtml",msg);
+				bundle.putString("html",msg);
+				bundle.putInt("type",2);
 				lunchActivityForResult(BreakQueryActivity.class,88,bundle);
 			}
 		}

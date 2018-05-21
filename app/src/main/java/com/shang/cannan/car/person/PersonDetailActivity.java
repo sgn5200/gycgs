@@ -136,7 +136,7 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 					showToast("宝宝，你的验证码呢？");
 					return;
 				}
-				present.query(vo, code);  //http://gycgs.gzbxd.com/CarAPP/CarRecord/Query
+				present.query(vo, code);
 				break;
 		}
 	}
@@ -169,9 +169,21 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 		if (!TextUtils.isEmpty(error)) {
 			showToast(error);
 		} else {
-			ArrayList<String> listResult = ParsHtmlUtils.getInfo(msg);
-			ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listResult);
-			lvResult.setAdapter(arrayAdapter);
+			if(SharePreUtils.getBoolConfig(PersonDetailActivity.this,"loginType")) {
+				ArrayList<String> listResult = ParsHtmlUtils.getInfo(msg);
+				ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listResult);
+				lvResult.setAdapter(arrayAdapter);
+			}else{
+//				Bundle bundle = new Bundle();
+//				bundle.putString("urlHtml",msg);
+//				lunchActivity(BreakQueryActivity.class,bundle,false);
+
+
+
+				ArrayList<String> listResult = ParsHtmlUtils.getWebInfo(msg);
+				ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listResult);
+				lvResult.setAdapter(arrayAdapter);
+			}
 		}
 	}
 }

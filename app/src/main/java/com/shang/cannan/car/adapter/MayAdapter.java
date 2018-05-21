@@ -63,7 +63,7 @@ public class MayAdapter extends BaseAdapter {
 
 	@Override
 	public MayInfoVo getItem(int position) {
-		return listData.get(position);
+		return listData==null?null:listData.get(position);
 	}
 
 	@Override

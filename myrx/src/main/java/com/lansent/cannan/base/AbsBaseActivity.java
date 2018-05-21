@@ -116,6 +116,8 @@ public abstract class AbsBaseActivity extends Activity {
 	 */
 	public void lunchActivity(Class<?> className, @Nullable Bundle bundle, boolean isFinish) {
 		Intent intent = new Intent(this, className);
+		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
 		if (null != bundle) {
 			intent.putExtras(bundle);
 		}
@@ -135,6 +137,7 @@ public abstract class AbsBaseActivity extends Activity {
 	 */
 	public void lunchActivityForResult(Class<?> className, int code, @Nullable Bundle bundle) {
 		Intent intent = new Intent(this, className);
+		intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		if (null != bundle) {
 			intent.putExtras(bundle);
 		}

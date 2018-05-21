@@ -19,32 +19,63 @@ import java.util.ArrayList;
 
 public class ParsHtmlUtils {
 
-	public static  String getErrorInfo(String html){
-		Document document= Jsoup.parse(html);
+	public static String getErrorInfo(String html) {
+		Document document = Jsoup.parse(html);
 		Elements er = document.body().select("div.validation-summary-errors");
 		Elements error = er.select("ul li");
 		return error.text();
 	}
 
-	public static  ArrayList<String> getInfo(String html){
-		ArrayList<String> list= new ArrayList<>();
-		Document document= Jsoup.parse(html);
+	public static ArrayList<String> getInfo(String html) {
+		ArrayList<String> list = new ArrayList<>();
+		Document document = Jsoup.parse(html);
 		Elements lable = document.body().select("form div");
 
-		if(lable==null || lable.size()==0){
+		if (lable == null || lable.size() == 0) {
 			return null;
 		}
 
-		int i=0;
-		for(Element element : lable){
-			if("fieldcontain".equals(element.attr("data-role"))){
-				String t1=element.text();
-				if(TextUtils.isEmpty(t1) || t1.contains("办理所需资料清单")){
+		int i = 0;
+		for (Element element : lable) {
+			if ("fieldcontain".equals(element.attr("data-role"))) {
+				String t1 = element.text();
+				if (TextUtils.isEmpty(t1) || t1.contains("办理所需资料清单")) {
 					continue;
 				}
 				list.add(t1);
 			}
 		}
+		return list;
+	}
+
+	public static ArrayList<String> getWebInfo(String html) {
+		ArrayList<String> list = new ArrayList<>();
+		Document document = Jsoup.parse(html);
+		Elements lable = document.body().select("form div.cell_body table tr");
+
+		if (lable == null || lable.size() == 0) {
+			return null;
+		}
+		for(int i=0,len=lable.size();i<len;i++){
+			try {
+				if(i<len-1) {
+					String item = lable.get(i).text();
+					list.add(item);
+				}
+			}catch (Exception e){
+				e.printStackTrace();
+			}
+		}
+
+//		for (Element element : lable) {
+//			String t1 = element.text();
+//			String rs = element.toString();
+//			Log.i("cannan", rs);
+//			if (TextUtils.isEmpty(t1) || t1.contains("办理所需资料清单")) {
+//				continue;
+//			}
+//			list.add(t1);
+//		}
 		return list;
 	}
 

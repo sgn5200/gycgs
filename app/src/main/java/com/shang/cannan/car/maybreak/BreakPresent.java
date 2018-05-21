@@ -78,7 +78,7 @@ public class BreakPresent {
 	 */
 	public void subInfo(final OwnerVo vo, final String siteNo, final String date, final String timePart){
 		breakView.showDialog(true);
-		URLParam param = new URLParam("/CarAPP/CarRecord/Record ");
+		URLParam param = new URLParam(UrlConstant.URL_RECORD);
 		param.setMethod(Method.POST);
 		param.addParam("CarServiceNo",String.valueOf(vo.getCarServiceNo()));
 		param.addParam("NumberType",String.valueOf(vo.getNumberType()));
@@ -118,7 +118,7 @@ public class BreakPresent {
 	 * 确认填报
 	 */
 	private  void affirm(final  OwnerVo vo, final String sitNo, final String date, final String timePart){
-		URLParam	 param = new URLParam("/CarAPP/CarRecord/Affirm");
+		URLParam	 param = new URLParam(UrlConstant.URL_Affirm);
 		param.setMethod(Method.POST);
 		param.addParam("isAffirmIdentCode","on") ;
 		param.addParam("isAffirmInfo","on") ;
@@ -154,7 +154,7 @@ public class BreakPresent {
 	 * @param numType    车辆类型
 	 */
 	public void subUser(String sitNo, String date, final String timePart, String carNo, String numType){
-		URLParam param = new URLParam("/CarAPP/CarRecord/Bespeak");
+		URLParam param = new URLParam(UrlConstant.URL_Bespeak);
 		param.setMethod(Method.POST);
 		param.addParam("BespeakSiteNo",sitNo);
 		param.addParam("BespeakDate",date);

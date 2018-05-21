@@ -151,7 +151,7 @@ public class SharePreUtils {
 	 * @return 如果没有此配置信息，默认返回 false
 	 */
 	public static boolean getBoolConfig(Context context, String key) {
-		return getBoolConfig(context, key, false);
+		return getBoolConfig(context, key, true);
 	}
 
 	/**

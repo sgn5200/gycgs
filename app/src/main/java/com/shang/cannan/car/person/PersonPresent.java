@@ -11,6 +11,7 @@ import com.lansent.cannan.api.ApiManager;
 import com.lansent.cannan.api.Method;
 import com.lansent.cannan.api.URLParam;
 import com.lansent.cannan.util.Log;
+import com.shang.cannan.car.util.UrlConstant;
 import com.shang.cannan.car.vo.OwnerVo;
 
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public class PersonPresent {
 
 
 	public void query(OwnerVo vo, String code) {
-		URLParam param = new URLParam("/CarAPP/CarRecord/Query");
+		URLParam param = new URLParam(UrlConstant.URL_Query);
 		param.setMethod(Method.POST);
 		param.addParam("IdentCode", vo.getIdentCode());
 		param.addParam("OwnerType", vo.getOwnerType() + "");
@@ -78,7 +79,7 @@ public class PersonPresent {
 	}
 
 	public void loadCode() {
-		URLParam param = new URLParam("http://gycgs.gzbxd.com/CarAPP/CheckCode/Index");
+		URLParam param = new URLParam(UrlConstant.URL_CODE);
 		param.setMethod(Method.GET);
 		ApiManager.getInstance().requestDefault(param, context, true)
 				.subscribe(new Consumer<ResponseBody>() {
