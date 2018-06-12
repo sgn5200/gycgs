@@ -85,6 +85,17 @@ public final class RegexUtils {
     }
 
     /**
+     * 公司组织机构代码
+     * @param input
+     * @return
+     */
+    public static boolean isCompanyAgentCode(final CharSequence input){
+         return isMatch(RegexConstants.COMPANY_AGENT,input);
+    }
+
+
+
+    /**
      * 验证邮箱
      *
      * @param input 待验证文本

@@ -6,8 +6,8 @@ android {
         applicationId "com.shang.cannan.car"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 7
-        versionName "癞疙宝 v1.7"
+        versionCode 8
+        versionName "癞疙宝 v1.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -31,4 +31,13 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile project(':myrx')
     compile 'org.jsoup:jsoup:1.11.3'
+
+//    compile('cn.bmob.android:bmob-sdk:3.5.0') {
+////        exclude group: 'io.reactivex:rxandroid'
+////        exclude group: 'io.reactivex:rxjava'
+//        exclude module: 'rxjava'
+//        exclude module: 'rxandroid'
+//        exclude module: 'okio'
+//        exclude module: 'gson'
+//    }
 }

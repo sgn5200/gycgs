@@ -103,7 +103,7 @@ public class MayAdapter extends BaseAdapter {
 		String am = mayInfoVo.getAmMayBespeakNumber();
 		String pm = mayInfoVo.getPmMayBespeakNumber();
 
-		if ("已满".equals(am) || "不可预约".equals(am)) {
+		if ("已满".equals(am) || "不可预约".equals(am) || "未开放".equals(am)) {
 			holder.tab2.setClickable(false);
 			holder.tab2.setBackgroundResource(R.color.click_off);
 		} else {
@@ -119,7 +119,7 @@ public class MayAdapter extends BaseAdapter {
 			holder.tab2.setBackgroundResource(R.color.click_on);
 		}
 
-		if ("已满".equals(pm) || "不可预约".equals(pm)) {
+		if ("已满".equals(pm) || "不可预约".equals(pm) || "未开放".equals(am)) {
 			holder.tab3.setBackgroundResource(R.color.click_off);
 			holder.tab3.setClickable(false);
 		} else {

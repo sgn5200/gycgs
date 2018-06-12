@@ -44,7 +44,7 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 	@Override
 	public void initViews() {
 		initWindow();
-		mClipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+		mClipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 		etCard = getView(R.id.etCard);
 		etUsername = getView(R.id.etUsername);
 		spCard = getView(R.id.spCard);
@@ -75,11 +75,9 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
 				if (RegexUtils.isAgentCode(s)) {
 					String card = etCard.getText().toString();
-					if (RegexUtils.isIDCard15(card) || RegexUtils.isIDCard18(card)) {
+					if (RegexUtils.isIDCard15(card) || RegexUtils.isIDCard18(card) ||  RegexUtils.isCompanyAgentCode(card)) {
 						btSave.setEnabled(true);
 					} else {
 						btSave.setEnabled(false);
@@ -110,18 +108,22 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 					} else {
 						btSave.setEnabled(false);
 					}
+				} else if (RegexUtils.isCompanyAgentCode(s)) {
+					rg.check(R.id.rbUserAll);
+					spCard.setSelection(1);
+					btSave.setEnabled(true);
 				} else {
 					btSave.setEnabled(false);
 				}
-			}
+		}
 
-			@Override
-			public void afterTextChanged(Editable s) {
+		@Override
+		public void afterTextChanged (Editable s){
 
-			}
-		});
+		}
+	});
 		spCard.setSelection(0);
-	}
+}
 
 	private void initWindow() {//初始化窗口属性，让状态栏和导航栏透明
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -167,22 +169,35 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 		super.onResume();
 		ClipData clipData = mClipboardManager.getPrimaryClip();
 
-		if(clipData==null)
+		if (clipData == null)
 			return;
 		ClipData.Item curItem = clipData.getItemAt(0);
-		if(curItem==null || curItem.getText()==null){
+		if (curItem == null || curItem.getText() == null) {
 			return;
 		}
 		String text = curItem.getText().toString();
-		Log.i(TAG,text);
+		Log.i(TAG, text);
 		String[] user = text.split("\n");
-		if(user.length!=3){
+		if (user.length != 3) {
 			return;
 		}
 
 		etUsername.setText(user[0]);
 		etCode.setText(user[1]);
+		if(user[1].startsWith("L")){
+			spCar.setSelection(1);
+		}else{
+			spCar.setSelection(2);
+		}
+
 		etCard.setText(user[2]);
+		if(RegexUtils.isCompanyAgentCode(user[2])){
+			rg.check(R.id.rbUserAll);
+			spCard.setSelection(1);
+		}else{
+			rg.check(R.id.rbUserSign);
+			spCard.setSelection(0);
+		}
 
 	}
 
@@ -219,7 +234,6 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 		vo.setCardType(cardPostion);    //证件类型
 		vo.setOwnerType(OwnerType);  //个人还是单位
 		vo.setOwnerName(userName);    //用户名
-
 		return vo;
 	}
 }

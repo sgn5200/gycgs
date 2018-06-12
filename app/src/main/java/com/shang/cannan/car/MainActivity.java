@@ -8,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -66,6 +67,8 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 	private List<SiteVo> listSite;
 	private MySpAdapter siteAdapter;
 	private MayAdapter mayAdapter;
+	private float x1;
+	private float x2;
 
 	@Override
 	public int getLayout() {
@@ -90,7 +93,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 		TextView tvVersion = headerView.findViewById(R.id.tvVersion);
 		String version = SimpleUtil.getAppVersion(this);
 		tvVersion.setText(version);
-
 		menu.setOnClickListener(this);
 		navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
@@ -138,9 +140,6 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 							e.printStackTrace();
 							break;
 						}
-
-
-
 						break;
 				}
 				drawerLayout.closeDrawer(navigationView);
@@ -180,7 +179,30 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 			}
 		});
+
+		lvMay.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				if(event.getAction() == MotionEvent.ACTION_DOWN) {
+					//当手指按下的时候
+					x1 = event.getX();
+				}
+				if(event.getAction() == MotionEvent.ACTION_UP) {
+					//当手指离开的时候
+					x2 = event.getX();
+					 if(x1 - x2 > 150) {
+						 drawerLayout.closeDrawer(navigationView);
+						return true;
+					} else if(x2 - x1 > 150) {
+						 drawerLayout.openDrawer(navigationView);
+						return true;
+					}
+				}
+				return false;
+			}
+		});
 	}
+
 
 	private void initSpinner() {
 //		String[] taskArry = getResources().getStringArray(R.array.CarServiceNo); //业务类型

@@ -109,6 +109,7 @@ public class BreakPresent {
 					public void accept(Throwable throwable) throws Exception {
 						throwable.printStackTrace();
 						Log.e(TAG,throwable.getMessage());
+						breakView.initUser(false,throwable.getMessage());
 					}
 				});
 
@@ -139,7 +140,7 @@ public class BreakPresent {
 				}, new Consumer<Throwable>() {
 					@Override
 					public void accept(Throwable throwable) throws Exception {
-
+						breakView.initUser(false,throwable.getMessage());
 					}
 				});
 	}
@@ -169,7 +170,7 @@ public class BreakPresent {
 						String rs = responseBody.string();
 						String title = Jsoup.parse(rs).title();
 						Log.i(TAG,title);
-						if("预约成功".equals(title)){
+						if("预约成功".equals(title)  || rs.contains("预约成功")){
 							breakView.submitUser(true,rs);
 						}else{
 							breakView.submitUser(false,rs);

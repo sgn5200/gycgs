@@ -39,6 +39,7 @@ public final class   RegexConstants {
 
 
     public static final String AGENT     = "^[A-Za-z0-9]{17}$";
+    public static final String COMPANY_AGENT     = "^([0-9ABCDEFGHJKLMNPQRTUWXY]{8})([0-9X])$";
     /**
      * 正则：邮箱
      */

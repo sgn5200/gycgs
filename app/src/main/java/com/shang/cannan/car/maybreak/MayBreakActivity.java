@@ -130,13 +130,10 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 		if(null!=list && list.size()>0) {
 			curItem = list.remove(0);
 			if (curItem != null) {
-				present.subInfo(curItem
-						, siteNo,
-						tvDate.getText().toString()
-						, isAm ? "1" : "2");
+				present.subInfo(curItem , siteNo, 	tvDate.getText().toString() , isAm ? "1" : "2");
 			}
 		}else{
-			showToast("已选择用户全部处理完成");
+			showToast("全部处理完成");
 		}
 	}
 
@@ -186,6 +183,11 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 				lunchActivityForResult(BreakQueryActivity.class,88,bundle);
 			}
 		}
+
+		if(list!=null && list.size()>0){ //当遇到失败时继续轮询
+			present.smsLogin(phone, sms);
+		}
+
 	}
 
 	@Override
@@ -204,10 +206,13 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 			curItem.setUpdateStatus(1);
 			OwnerDao.getInstance(MyApp.helper).update(curItem);
 		} else {
-			curItem.setUpdateStatus(1);
+			curItem.setUpdateStatus(0);
 			OwnerDao.getInstance(MyApp.helper).update(curItem);
 			showToast(msg);
-			submit();
+
+			if(list!=null && list.size()>0){ //当遇到填报失败时继续轮询
+				present.smsLogin(phone, sms);
+			}
 		}
 	}
 }
