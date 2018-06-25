@@ -18,6 +18,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.ArrayList;
+
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
@@ -34,10 +36,22 @@ public class BreakPresent {
 	private  Context context;
 	private BreakView breakView;
 	private String TAG = getClass().getSimpleName();
+	private ArrayList<Disposable> listDis ;
 
 	public BreakPresent(BreakView breakView, Context context){
 		this.context =context;
 		this.breakView = breakView;
+		this.listDis = new ArrayList<>();
+	}
+
+	public void onDetch(){
+		if(listDis!=null && listDis.size()>0){
+			for(Disposable disposable:listDis){
+				if(!disposable.isDisposed()){
+					disposable.dispose();
+				}
+			}
+		}
 	}
 
 	public void smsLogin(final String phone, final String sms) {
@@ -69,6 +83,7 @@ public class BreakPresent {
 						throwable.printStackTrace();
 					}
 				});
+		listDis.add(dis);
 	}
 
 
@@ -77,7 +92,7 @@ public class BreakPresent {
 	 * @param vo
 	 */
 	public void subInfo(final OwnerVo vo, final String siteNo, final String date, final String timePart){
-		breakView.showDialog(true);
+		breakView.showDialog(true,vo.getOwnerName()+"的业务正在填报中...");
 		URLParam param = new URLParam(UrlConstant.URL_RECORD);
 		param.setMethod(Method.POST);
 		param.addParam("CarServiceNo",String.valueOf(vo.getCarServiceNo()));
@@ -90,17 +105,17 @@ public class BreakPresent {
 		param.addParam("IsAgent","0");
 		param.addParam("__RequestVerificationToken",SharePreUtils.getStrConfig(context,"myToken"));
 
-		ApiManager.getInstance().requestDefault(param,context,true)
+		Disposable dis = ApiManager.getInstance().requestDefault(param, context, true)
 				.subscribe(new Consumer<ResponseBody>() {
 					@Override
 					public void accept(ResponseBody responseBody) throws Exception {
 						String rs = responseBody.string();
 						String error = paseHtmlSessionError(rs);
-						if(TextUtils.isEmpty(error)){
-							affirm(vo,siteNo,date,timePart);
-						}else{
-							breakView.showDialog(false);
-							breakView.initUser(false,error);
+						if (TextUtils.isEmpty(error)) {
+							affirm(vo, siteNo, date, timePart);
+						} else {
+							breakView.showDialog(false, "");
+							breakView.initUser(false, error);
 						}
 
 					}
@@ -108,41 +123,43 @@ public class BreakPresent {
 					@Override
 					public void accept(Throwable throwable) throws Exception {
 						throwable.printStackTrace();
-						Log.e(TAG,throwable.getMessage());
-						breakView.initUser(false,throwable.getMessage());
+						Log.e(TAG, throwable.getMessage());
+						breakView.initUser(false, throwable.getMessage());
 					}
 				});
-
+		   listDis.add(dis);
 	}
 
 	/**
 	 * 确认填报
 	 */
 	private  void affirm(final  OwnerVo vo, final String sitNo, final String date, final String timePart){
+		breakView.showDialog(true,vo.getOwnerName()+"的业务正在提交中...");
 		URLParam	 param = new URLParam(UrlConstant.URL_Affirm);
 		param.setMethod(Method.POST);
 		param.addParam("isAffirmIdentCode","on") ;
 		param.addParam("isAffirmInfo","on") ;
 		param.addParam("btnSubmit","确认，提交填报") ;
-		ApiManager.getInstance().requestDefault(param,context,true)
+		Disposable dis = ApiManager.getInstance().requestDefault(param, context, true)
 				.subscribe(new Consumer<ResponseBody>() {
 					@Override
 					public void accept(ResponseBody responseBody) throws Exception {
 						String rs = responseBody.string();
-						if(!TextUtils.isEmpty(rs) && rs.contains("预约时间地点")){
-							breakView.initUser(true,"填报成功");
-							subUser(sitNo,date,timePart,vo.getCarServiceNo()+"",vo.getNumberType()+"");
-						}else {
-							breakView.showDialog(false);
-							breakView.initUser(false,"填报失败了");
+						if (!TextUtils.isEmpty(rs) && rs.contains("预约时间地点")) {
+							breakView.initUser(true, "填报成功");
+							subUser(sitNo, date, timePart, vo.getCarServiceNo() + "", vo.getNumberType() + "");
+						} else {
+							breakView.showDialog(false, "");
+							breakView.initUser(false, "填报失败了");
 						}
 					}
 				}, new Consumer<Throwable>() {
 					@Override
 					public void accept(Throwable throwable) throws Exception {
-						breakView.initUser(false,throwable.getMessage());
+						breakView.initUser(false, throwable.getMessage());
 					}
 				});
+		listDis.add(dis);
 	}
 
 
@@ -155,6 +172,7 @@ public class BreakPresent {
 	 * @param numType    车辆类型
 	 */
 	public void subUser(String sitNo, String date, final String timePart, String carNo, String numType){
+		breakView.showDialog(true,"预约处理中...");
 		URLParam param = new URLParam(UrlConstant.URL_Bespeak);
 		param.setMethod(Method.POST);
 		param.addParam("BespeakSiteNo",sitNo);
@@ -166,7 +184,7 @@ public class BreakPresent {
 				.subscribe(new Consumer<ResponseBody>() {
 					@Override
 					public void accept(ResponseBody responseBody) throws Exception {
-						breakView.showDialog(false);
+						breakView.showDialog(false,"");
 						String rs = responseBody.string();
 						String title = Jsoup.parse(rs).title();
 						Log.i(TAG,title);
@@ -175,14 +193,16 @@ public class BreakPresent {
 						}else{
 							breakView.submitUser(false,rs);
 						}
+						breakView.showDialog(false,"");
 					}
 				}, new Consumer<Throwable>() {
 					@Override
 					public void accept(Throwable throwable) throws Exception {
 						breakView.submitUser(false,"预约出错了");
-						breakView.showDialog(false);
+						breakView.showDialog(false,"");
 					}
 				});
+		listDis.add(dis);
 	}
 
 
@@ -225,7 +245,7 @@ public class BreakPresent {
 
 
 	static interface BreakView{
-		  public void showDialog(boolean show);
+		  public void showDialog(boolean show,String title);
 		  public void submitUser(boolean success,String msg);
 		  public void login(boolean success,String msg);
 		  public void initUser(boolean success,String msg);

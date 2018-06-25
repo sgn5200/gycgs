@@ -41,4 +41,16 @@
         <item>早上</item>
         <item>下午</item>
     </string-array>
+
+    <!--识别类型-->
+    <string-array name="ocr">
+        <item>通用文字识别</item>
+        <item>网络图片识别</item>
+        <item>银行卡识别</item>
+        <item>通用票据识别</item>
+        <item>增值税发票</item>
+        <item>数字</item>
+        <item>身份证正面</item>
+        <item>身份证反面</item>
+    </string-array >
 </resources>

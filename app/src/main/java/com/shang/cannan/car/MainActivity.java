@@ -1,5 +1,6 @@
 package com.shang.cannan.car;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.shang.cannan.car.adapter.MySpAdapter;
 import com.shang.cannan.car.input.InputActivity;
 import com.shang.cannan.car.login.LoginActivity;
 import com.shang.cannan.car.maybreak.MayBreakActivity;
+import com.shang.cannan.car.ocr.OcrActivity;
 import com.shang.cannan.car.person.PersonActivity;
 import com.shang.cannan.car.query.BreakQueryActivity;
 import com.shang.cannan.car.util.CustomProgress;
@@ -51,8 +53,6 @@ import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
 
 public class MainActivity extends AbsBaseActivity implements View.OnClickListener {
-
-
 	/**
 	 * UI
 	 */
@@ -75,6 +75,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 		return R.layout.activity_main;
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public void initViews() {
 		initWindow();
@@ -101,6 +102,9 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 				String itemStr =   item.getTitle().toString();
 				Bundle bundle = new Bundle();
 				switch (itemStr){
+					case "智能识别":
+						lunchActivity(OcrActivity.class,null,false);
+						break;
 					case "信息填报":
 						lunchActivity(InputActivity.class,null,false);
 						break;
@@ -108,7 +112,7 @@ public class MainActivity extends AbsBaseActivity implements View.OnClickListene
 						lunchActivity(PersonActivity.class,null,false);
 						break;
 					case "切换账号":
-						SharePreUtils.clearAllConfig(MainActivity.this);
+						SharePreUtils.removeConfig(MainActivity.this,"sms");
 						lunchActivity(LoginActivity.class,null,false);
 						break;
 					case "预约查询":

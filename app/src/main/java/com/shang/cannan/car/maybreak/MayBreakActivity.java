@@ -58,7 +58,7 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 		btBreak.setOnClickListener(this);
 
 		TextView tvtitle = getView(R.id.topTitleTv);
-		tvtitle.setText("当前预约");
+		tvtitle.setText("预约");
 		checkBox = getView(R.id.checkbox);
 		checkboxAll = getView(R.id.checkboxAll);
 		View viewBreak = getView(R.id.topLeftIv);
@@ -76,7 +76,7 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 		tvTimepart.setText(isAm ? "上午" : "下午");
 
 		adapter = new BreakAdapter(this);
-		List<OwnerVo> personList = OwnerDao.getInstance(MyApp.helper).getAll();
+		List<OwnerVo> personList = OwnerDao.getInstance(MyApp.helper).getAll("0");
 		adapter.setDaata(personList);
 		lvPerson.setAdapter(adapter);
 		present = new BreakPresent(this, this);
@@ -91,22 +91,11 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 		checkboxAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if(isChecked){
-					List<OwnerVo> dataList=adapter.getDataList();
-					for(OwnerVo ownerVo:dataList){
-						if(ownerVo.getOkStatus()!=1 && ownerVo.getUpdateStatus()!=1){
-							ownerVo.setChecked(true);
-						}
-					}
-				}else{
-					List<OwnerVo> dataList=adapter.getDataList();
-					for(OwnerVo ownerVo:dataList){
-						ownerVo.setChecked(false);
-					}
-				}
-				adapter.notifyDataSetChanged();
+				SharePreUtils.saveBoolConfig(MayBreakActivity.this,"all_check",isChecked);
+				adapter.setCheckAll(isChecked);
 			}
 		});
+		checkboxAll.setChecked(SharePreUtils.getBoolConfig(this,"all_check"));
 	}
 
 	@Override
@@ -126,22 +115,28 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 		}
 	}
 
-	private void submit() {
-		if(null!=list && list.size()>0) {
-			curItem = list.remove(0);
-			if (curItem != null) {
-				present.subInfo(curItem , siteNo, 	tvDate.getText().toString() , isAm ? "1" : "2");
-			}
-		}else{
-			showToast("全部处理完成");
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		showDialog(false,"");
+	}
+
+	@Override
+	protected void onDestroy() {
+		if(present!=null){
+			present.onDetch();
 		}
+		if(customProgress!=null && customProgress.isShowing()){
+			customProgress.dismiss();
+		}
+		super.onDestroy();
 	}
 
 	CustomProgress customProgress;
 	@Override
-	public void showDialog(boolean show) {
+	public void showDialog(boolean show,String title) {
 		if (show) {
-			customProgress = CustomProgress.show(this, "加载中", false, null);
+			customProgress = CustomProgress.show(this, title, false, null);
 		} else if (customProgress != null) {
 			customProgress.dismiss();
 		}
@@ -151,13 +146,15 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode==88){
-			submit();
+			if(list!=null && list.size()>0){ //当遇到填报失败时继续轮询
+				present.smsLogin(phone, sms);
+			}
 		}
 	}
 
 	@Override
 	public void submitUser(boolean success, String msg) {   //预约
-		if(checkBox.isChecked()){
+		if(checkBox.isChecked()){      //显示预约结果
 			if(success) {
 				showToast("预约成功:"+curItem.getOwnerName());
 				curItem.setOkStatus(1);
@@ -171,23 +168,18 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 			lunchActivityForResult(BreakQueryActivity.class,88,bundle);
 		}else{
 			if (success) {
-				submit();
 				showToast("预约成功:"+curItem.getOwnerName());
 				curItem.setOkStatus(1);
 				adapter.updateData(curItem);
 				OwnerDao.getInstance(MyApp.helper).update(curItem);
 			} else {
-				Bundle bundle = new Bundle();
-				bundle.putString("html",msg);
-				bundle.putInt("type",2);
-				lunchActivityForResult(BreakQueryActivity.class,88,bundle);
+				showToast(curItem.getOwnerName()+" 预约失败\n，"+msg);
+			}
+
+			if(list!=null && list.size()>0){ //如果有 继续轮询
+				present.smsLogin(phone, sms);
 			}
 		}
-
-		if(list!=null && list.size()>0){ //当遇到失败时继续轮询
-			present.smsLogin(phone, sms);
-		}
-
 	}
 
 	@Override
@@ -195,8 +187,16 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 		if (!success) {
 			showToast(msg);
 			lunchActivity(LoginActivity.class, null, true);
-		}else{
-			submit();
+		}else{//登录成功  检查集合
+			if(null!=list && list.size()>0) {
+				showToast(list.size()+" 个客户准备处理");
+				curItem = list.remove(0);
+				if (curItem != null) {
+					present.subInfo(curItem , siteNo, 	tvDate.getText().toString() , isAm ? "1" : "2");
+				}
+			}else{
+				showToast("处理完成");
+			}
 		}
 	}
 
@@ -214,5 +214,7 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 				present.smsLogin(phone, sms);
 			}
 		}
+		curItem.setChecked(false);
+		adapter.notifyDataSetChanged();
 	}
 }

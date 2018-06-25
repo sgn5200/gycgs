@@ -69,8 +69,10 @@
             android:textSize="@dimen/tv_h2"
             android:background="@drawable/bt_style"
             android:layout_alignParentRight="true"
-            android:layout_width="100dp"
-            android:layout_height="40dp"/>
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="80dp"
+            android:layout_height="50dp"/>
 
     </RelativeLayout>
 

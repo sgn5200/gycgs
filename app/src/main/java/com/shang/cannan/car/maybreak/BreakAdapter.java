@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.lansent.cannan.util.Log;
 import com.shang.cannan.car.R;
 import com.shang.cannan.car.vo.OwnerVo;
 
@@ -58,16 +59,30 @@ public class BreakAdapter extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-
+	public void setCheckAll(boolean isChecked) {
+		if(isChecked){
+			for(OwnerVo ownerVo:mListData){
+				if(ownerVo.getOkStatus()!=1 && ownerVo.getUpdateStatus()!=1){
+					ownerVo.setChecked(true);
+				}
+			}
+		}else{
+			for(OwnerVo ownerVo:mListData){
+				ownerVo.setChecked(false);
+			}
+		}
+		notifyDataSetChanged();
+	}
 
 	public List<OwnerVo> getCheckList(){
-		return  checkList;
+		List<OwnerVo> list= new ArrayList<>();
+		for(OwnerVo vo:mListData){
+			if(vo.isChecked()){
+				list.add(vo);
+			}
+		}
+		return  list;
 	}
-	public List<OwnerVo> getDataList(){
-		return  mListData;
-	}
-
-
 
 	@Override
 	public int getCount() {
@@ -145,18 +160,23 @@ public class BreakAdapter extends BaseAdapter {
 		holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				Log.i("BreakAdapter","check "+isChecked);
 				ownerVo.setChecked(isChecked);
 				if(isChecked){
 					checkList.add(ownerVo);
 				}else{
 					checkList.remove(ownerVo);
 				}
+				Log.i("BreakAdapter","check "+checkList.size());
+
 			}
 		});
 
 		holder.checkBox.setChecked(ownerVo.isChecked());
 
 	}
+
+
 
 	private class Holder{
 		private TextView tvName,tvCard,tvCode,tvTime,tvStatus,tvCardType,tvStatus2;

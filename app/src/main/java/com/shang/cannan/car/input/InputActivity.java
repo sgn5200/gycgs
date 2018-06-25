@@ -60,7 +60,8 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 		view.setVisibility(View.VISIBLE);
 		view.setOnClickListener(this);
 		View right = getView(R.id.topRightIv);
-		right.setVisibility(View.GONE);
+		right.setVisibility(View.VISIBLE);
+		right.setOnClickListener(this);
 
 		spOp.setSelection(1);
 		spCar.setSelection(1);
@@ -143,6 +144,10 @@ public class InputActivity extends AbsBaseActivity implements View.OnClickListen
 		switch (v.getId()) {
 			case R.id.topLeftIv:
 				finish();
+				break;
+			case R.id.topRightIv:
+				btSave.setEnabled(true);
+				showToast("自行小心检查");
 				break;
 			case R.id.btSave:
 				OwnerVo voSave = getVo();
