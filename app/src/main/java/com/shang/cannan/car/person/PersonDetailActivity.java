@@ -39,6 +39,7 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 	private RadioGroup rgSub, rgBreak;
 
 	private ListView lvResult;
+	private boolean initFinished;
 
 	@Override
 	public int getLayout() {
@@ -83,23 +84,28 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 		rgSub.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				int sub = checkedId == R.id.rbSubOn ? 1 : 0;
-				vo.setUpdateStatus(sub);
-				OwnerDao.getInstance(MyApp.helper).update(vo);
+				if(initFinished) {
+					int sub = checkedId == R.id.rbSubOn ? 1 : 0;
+					vo.setUpdateStatus(sub);
+					OwnerDao.getInstance(MyApp.helper).update(vo);
+				}
 			}
 		});
 
 		rgBreak.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				vo.setOkStatus(checkedId == R.id.rbBreadOn ? 1 : 0);
-				OwnerDao.getInstance(MyApp.helper).update(vo);
+				if(initFinished) {
+					vo.setOkStatus(checkedId == R.id.rbBreadOn ? 1 : 0);
+					OwnerDao.getInstance(MyApp.helper).update(vo);
+				}
 			}
 		});
 
 		rgSub.check(vo.getUpdateStatus() == 1 ? R.id.rbSubOn : R.id.rbSubOff);
 		rgBreak.check(vo.getOkStatus() == 1 ? R.id.rbBreadOn : R.id.rbBreakOff);
 		setData(vo);
+		initFinished= true;
 	}
 
 	private void setData(OwnerVo vo) {
@@ -114,12 +120,6 @@ public class PersonDetailActivity extends AbsBaseActivity implements View.OnClic
 		tvTime.setText(sdf.format(new Date(Long.valueOf(vo.getCreateTime()))));
 		present.loadCode();
 	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
 
 	@Override
 	public void onClick(View v) {

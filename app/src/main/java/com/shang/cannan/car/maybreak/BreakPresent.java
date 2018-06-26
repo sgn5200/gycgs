@@ -111,10 +111,10 @@ public class BreakPresent {
 					public void accept(ResponseBody responseBody) throws Exception {
 						String rs = responseBody.string();
 						String error = paseHtmlSessionError(rs);
+						breakView.showDialog(false, "");
 						if (TextUtils.isEmpty(error)) {
 							affirm(vo, siteNo, date, timePart);
 						} else {
-							breakView.showDialog(false, "");
 							breakView.initUser(false, error);
 						}
 
@@ -134,7 +134,6 @@ public class BreakPresent {
 	 * 确认填报
 	 */
 	private  void affirm(final  OwnerVo vo, final String sitNo, final String date, final String timePart){
-		breakView.showDialog(true,vo.getOwnerName()+"的业务正在提交中...");
 		URLParam	 param = new URLParam(UrlConstant.URL_Affirm);
 		param.setMethod(Method.POST);
 		param.addParam("isAffirmIdentCode","on") ;

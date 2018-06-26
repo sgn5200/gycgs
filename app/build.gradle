@@ -6,8 +6,8 @@ android {
         applicationId "com.shang.cannan.car"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 8
-        versionName "癞疙宝 v1.8"
+        versionCode 9
+        versionName "癞疙宝 v1.9"
         sourceSets.main{
            jniLibs.srcDirs = ['libs']
         }

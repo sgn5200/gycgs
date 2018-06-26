@@ -114,13 +114,7 @@ public class MayBreakActivity extends AbsBaseActivity implements View.OnClickLis
 				break;
 		}
 	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		showDialog(false,"");
-	}
-
+	
 	@Override
 	protected void onDestroy() {
 		if(present!=null){

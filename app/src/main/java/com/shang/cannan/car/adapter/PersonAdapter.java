@@ -3,6 +3,8 @@ package com.shang.cannan.car.adapter;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shang.cannan.car.MyApp;
 import com.shang.cannan.car.R;
+import com.shang.cannan.car.dao.OwnerDao;
+import com.shang.cannan.car.person.PersonDetailActivity;
 import com.shang.cannan.car.vo.OwnerVo;
 
 import java.text.SimpleDateFormat;
@@ -62,7 +67,7 @@ public class PersonAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		Holder holder;
 		if(convertView == null){
 			convertView = inflater.inflate(R.layout.layout_person_item,null);
@@ -74,11 +79,27 @@ public class PersonAdapter extends BaseAdapter {
 			holder.tvCardType =(TextView) convertView.findViewById(R.id.tvCardType) ;
 			holder.tvUpdateStatus =(TextView) convertView.findViewById(R.id.tvStatus) ;
 			holder.tvOkStatus =(TextView) convertView.findViewById(R.id.tvok) ;
+			holder.tvPosition =(TextView) convertView.findViewById(R.id.tvPosition) ;
+			holder.tvCopy =(TextView) convertView.findViewById(R.id.tv_top) ;
+			holder.tvDelete =(TextView) convertView.findViewById(R.id.tv_delete) ;
+			holder.itemView = convertView.findViewById(R.id.itemView) ;
 			convertView.setTag(holder);
 		}
 		holder = (Holder) convertView.getTag() ;
-
+		holder.tvPosition.setText(String.valueOf(position+1));
 		initData(holder,mListData.get(position));
+
+		holder.itemView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Bundle bundle = new Bundle();
+				OwnerVo item = mListData.get(position);
+				bundle.putParcelable("item",item);
+				Intent intent = new Intent(context,PersonDetailActivity.class);
+				intent.putExtras(bundle);
+				context.startActivity(intent);
+			}
+		});
 		return convertView;
 	}
 
@@ -87,14 +108,23 @@ public class PersonAdapter extends BaseAdapter {
 		holder.tvCard.setText(ownerVo.getCardCode());
 		holder.tvCode.setText(ownerVo.getIdentCode());
 
-		holder.tvName.setOnLongClickListener(new View.OnLongClickListener() {
+
+		holder.tvCopy.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public boolean onLongClick(View v) {
+			public void onClick(View v) {
 				String mData = ownerVo.getOwnerName()+"\n"+ownerVo.getIdentCode()+"\n"+ownerVo.getCardCode();
 				ClipData mClipData =ClipData.newPlainText("user",mData);
 				mClipboardManager.setPrimaryClip(mClipData);
 				Toast.makeText(context,"已复制:\n"+mData,Toast.LENGTH_SHORT).show();
-				return true;
+			}
+		});
+
+		holder.tvDelete.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				OwnerDao.getInstance(MyApp.helper).delete(ownerVo);
+				mListData.remove(ownerVo);
+				notifyDataSetChanged();
 			}
 		});
 
@@ -118,7 +148,8 @@ public class PersonAdapter extends BaseAdapter {
 	}
 
 	private class Holder{
-		private TextView tvName,tvCard,tvCode,tvTime,tvUpdateStatus,tvOkStatus,tvCardType;
+		private View itemView;
+		private TextView tvName,tvCard,tvCode,tvTime,tvUpdateStatus,tvOkStatus,tvCardType,tvPosition,tvCopy,tvDelete;
 	}
 
 }
